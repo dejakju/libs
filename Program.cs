@@ -2,11 +2,11 @@
 
 namespace libs
 {
-    class Program
+    class Run
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Watch the world burn!");
         }
     }
 }
