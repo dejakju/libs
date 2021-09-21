@@ -19,6 +19,13 @@ namespace Kju
 
 
 
+            Console.WriteLine($"{DOS.GetEnv("os")}");
+
+            Game myGame = new Game();
+            myGame.Start();
+
+
+
         }
 
     }
