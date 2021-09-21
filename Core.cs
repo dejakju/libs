@@ -62,24 +62,5 @@ namespace Kju
             System.Console.WriteLine($"----------------------------------------------------------------------------");
         }
 
-        // !!! This belongs in a separate class (as it deals with the filesystem) !!!
-        public static IEnumerable<T> Examine<T>(this IEnumerable<T> items, Func<T, bool> f)
-        {
-            string[] drives = Environment.GetLogicalDrives();
-            foreach (var drive in drives)
-            {
-                System.Console.WriteLine($"{drive}");
-
-                foreach (var item in items)
-                {
-                    if (f(item))
-                    {
-                        yield return item;
-                    }
-                }
-
-            }
-
-        }
     }
 }
