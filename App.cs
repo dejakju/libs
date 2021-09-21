@@ -14,6 +14,11 @@ namespace Kju
         {
 
 
+            Console.WriteLine(Exec.GetEnv("computername"));
+            Console.WriteLine(Exec.GetEnv("username"));
+
+
+
         }
 
     }
