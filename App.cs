@@ -13,6 +13,7 @@ namespace Kju
         {
             Console.WriteLine($"{DOS.GetEnv("username")}@{DOS.GetEnv("computername")} running on {DOS.GetEnv("processor_identifier")} (OS: {DOS.GetEnv("os")})");
 
+
             // string[] drives = Environment.GetLogicalDrives();
             // foreach (var drive in drives)
             // {
