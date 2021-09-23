@@ -1,26 +1,28 @@
+using System.Collections.Generic;
+
 namespace Kju
 {
-    public class Node
+    public class Node<T>
     {
         #region Private Members
-        private object data;
-        private Node next;
+        private T data;
+        private Node<T> next;
         #endregion
 
         #region Constructors
         public Node()
         {
-            data = null;
+            data = default;
             next = null;
         }
 
-        public Node(object o)
+        public Node(T o)
         {
             data = o;
             next = null;
         }
 
-        public Node(object o, Node n)
+        public Node(T o, Node<T> n)
         {
             data = o;
             next = n;
@@ -28,22 +30,22 @@ namespace Kju
         #endregion
 
         #region Public Getters/Setters
-        public void setNextNode(Node n)
+        public void setNextNode(Node<T> n)
         {
             next = n;
         }
 
-        public Node getNextNode()
+        public Node<T> getNextNode()
         {
             return next;
         }
 
-        public void setData(object o)
+        public void setData(T o)
         {
             data = o;
         }
 
-        public object getData()
+        public T getData()
         {
             return data;
         }

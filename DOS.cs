@@ -24,7 +24,6 @@ namespace Kju
             foreach (var drive in drives)
             {
                 System.Console.WriteLine($"{drive}");
-
                 foreach (var item in items)
                 {
                     if (f(item))
@@ -32,9 +31,7 @@ namespace Kju
                         yield return item;
                     }
                 }
-
             }
-
         }
         #endregion
 

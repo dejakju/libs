@@ -27,29 +27,6 @@ namespace Kju
             return stopwatch;
         }
 
-        public static void GetEnvArc()
-        {
-            IDictionary envarc = Environment.GetEnvironmentVariables();
-            var counter = 0;
-            envarc.Keys.Cast<string>().ToList().ForEach(key => {
-                var val = envarc.Values.Cast<string>().ToArray();
-                Console.WriteLine($"Key = {key} | Value = {val[counter++]}");
-            });
-
-            Console.WriteLine($"-----------------------------------------------");
-            Console.WriteLine($"{envarc.Count} keys found");
-        }
-
-        public static string GetEnv(string name)
-        {
-            foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
-            {
-                string s = de.Key.ToString().ToUpper();
-                if (s == name.ToUpper())
-                    return (string)de.Value;
-            }
-            return string.Empty;
-        }
     }
 
 }
