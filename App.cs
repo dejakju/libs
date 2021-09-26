@@ -14,6 +14,35 @@ namespace Kju
             Console.WriteLine($"{DOS.GetEnv("username")}@{DOS.GetEnv("computername")} running on {DOS.GetEnv("processor_identifier")} (OS: {DOS.GetEnv("os")})");
 
 
+
+            SingleLL<string> ll = new SingleLL<string>();
+            ll.setIdentifier("StringNode");
+
+            Console.WriteLine($"Length of {ll.getIdentifier()}: {ll.length()} nodes");
+
+            ll.add(1, "Hooray");
+            ll.add(1, "Second");
+            ll.add(1, "Hooray");
+            ll.add(1, "Hooray");
+            ll.add(1, "Hooray");
+
+            Console.WriteLine($"Length of {ll.getIdentifier()}: {ll.length()} nodes");
+
+            List<string> nodes = ll.listAll();
+            foreach (var node in nodes)
+            {
+                Console.WriteLine($"{node}");
+            }
+
+
+            // Console.WriteLine($"{}");
+            // Console.WriteLine($"{}");
+            // Console.WriteLine($"{}");
+            // Console.WriteLine($"{}");
+            // Console.WriteLine($"{}");
+            // Console.WriteLine($"{}");
+
+
             // string[] drives = Environment.GetLogicalDrives();
             // foreach (var drive in drives)
             // {

@@ -30,16 +30,6 @@ namespace Kju
         #endregion
 
         #region Public Getters/Setters
-        public void setNextNode(Node<T> n)
-        {
-            next = n;
-        }
-
-        public Node<T> getNextNode()
-        {
-            return next;
-        }
-
         public void setData(T o)
         {
             data = o;
@@ -48,6 +38,16 @@ namespace Kju
         public T getData()
         {
             return data;
+        }
+
+        public void setNextNode(Node<T> n)
+        {
+            next = n;
+        }
+
+        public Node<T> getNextNode()
+        {
+            return next;
         }
         #endregion
     }
