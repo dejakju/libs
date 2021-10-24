@@ -52,7 +52,42 @@ namespace libs
             {
                 Console.WriteLine($"The #{i}-th fib number is = {Math.NthFibonacci(i, m)}");
             }
-        }        
+        }
+
+        public static void Run_Hash_Test()
+        {
+            System.Console.Write($"Enter a phrase or word: ");
+            string input = Console.ReadLine();
+
+            // MD5
+            System.Console.WriteLine("MD5:".PadRight(6) + $"{Hash.MD5(input)}");
+            // SHA1
+            System.Console.WriteLine("SHA1:".PadRight(6) + $"{Hash.SHA1(input)}");
+            // Encode (string -> byte array)
+            var encoded = Hash.Encode(input);
+            System.Console.WriteLine($"Encoded:");
+            for (int ctr = 0; ctr < encoded.Length; ctr++)
+            {
+                System.Console.Write("{0:X2}\t", encoded[ctr]);
+                if ((ctr+1) % 16 == 0)
+                    System.Console.WriteLine();
+            }
+            // Decode (byte array -> string)
+            var decoded = Hash.Decode(encoded);
+            System.Console.WriteLine($"\nDecoded:\n{decoded}");
+            // Encrypt
+            var encrypted = Hash.Encrypt(Hash.Encode(input), "kfdkfd", "12345678");
+            System.Console.WriteLine($"Encrypted:");
+            for (int ctr = 0; ctr < encrypted.Length; ctr++)
+            {
+                System.Console.Write("{0:X2}\t", encrypted[ctr]);
+                if ((ctr+1) % 16 == 0)
+                    System.Console.WriteLine();
+            }
+            // Decrypt
+            var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "kfdkfd", "12345678"));
+            System.Console.WriteLine($"\nDecrypted:\n{decrypted}");
+        }
 
 
    }
