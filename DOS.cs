@@ -18,61 +18,16 @@ namespace libs
     public static class DOS
     {
         #region File IO
+
         public static DirectoryInfo CreateDir(string name)
         {
-            try
-            {
-                return Directory.CreateDirectory(name);
-            }
-            catch (IOException e)
-            {
-                throw new DOSException($"{e.ToString()}");
-            }
-            // catch (System.UnauthorizedAccessException e)
-            // {
-            //     Console.WriteLine($"You don't have the required permission.");
-            // }
-            // catch (System.ArgumentException e)
-            // {
-            //     Console.WriteLine($"The specified path '{name}' contains only white space, one or more invalid characters, or none at all.");
-            // }
-            // catch (System.ArgumentNullException e)
-            // {
-            //     Console.WriteLine($"The specified path '{name}' is null.");
-            // }
-            // catch (System.PathTooLongException e)
-            // {
-            //     Console.WriteLine($"The specified path, file name, or both exceed the system-defined maximum length.");
-            // }
-            // catch (System.DirectoryNotFoundException e)
-            // {
-            //     Console.WriteLine($"The specified path is invalid (e.g., it is on an unmapped drive).");
-            // }
-            // catch (System.NotSupportedException e)
-            // {
-            //     Console.WriteLine($"The specified path '{name}' contains a colon character (:) that is not part of a drive label (\"C:\")");
-            // }
+            return Directory.CreateDirectory(name);
         }
 
-
-        public static IEnumerable<T> GetActiveDrives<T>(this IEnumerable<T> items, Func<T, bool> f)
-        {
-            string[] drives = Environment.GetLogicalDrives();
-            foreach (var drive in drives)
-            {
-                System.Console.WriteLine($"{drive}");
-                foreach (var item in items)
-                {
-                    if (f(item))
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
         #endregion
 
         #region Environment Methods
+
         public static string GetEnv(string variable)
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
@@ -88,16 +43,20 @@ namespace libs
                 return string.Empty;
             }
         }
+
         #endregion
 
         #region Menu Variables
+
         private static int mMenuSelectedIndex;
         private static string[] mMenuOptions;
         private static string mMenuPrompt;
         private static string mMenuLogo;
+
         #endregion
 
         #region Menu Methods
+
         public static void CreateMenu(string prompt, string[] options, string logo = "")
         {
             mMenuPrompt = prompt;
@@ -168,6 +127,7 @@ namespace libs
 
             return mMenuSelectedIndex;
         }
+
         #endregion
 
     }

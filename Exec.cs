@@ -18,14 +18,8 @@ namespace libs
 
     public static class Exec
     {
-        public static Stopwatch Measure(Action a)
-        {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            a();
-            stopwatch.Stop();
-            return stopwatch;
-        }
+
+
 
     }
 

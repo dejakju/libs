@@ -52,15 +52,13 @@ namespace libs
         public static void MeasureRuntime(this Action a, string name)
         {
             Stopwatch stopwatch = new Stopwatch();
-            System.Console.WriteLine($"----------------------------------------------------------------------------");
             System.Console.WriteLine($"MEASURING '{name}' ...");
-            System.Console.WriteLine($"+ ...");
+            System.Console.WriteLine($"----------------------------------------------------------------------------");
             stopwatch.Start();
             a();
             stopwatch.Stop();
-            System.Console.WriteLine($"... +");
-            System.Console.WriteLine($"MEASURED '{name}' EXECUTION TIME = {stopwatch.ElapsedMilliseconds} ms ({stopwatch.Elapsed} s)");
             System.Console.WriteLine($"----------------------------------------------------------------------------");
+            System.Console.WriteLine($"MEASURED '{name}' EXECUTION TIME = {stopwatch.ElapsedMilliseconds} ms ({stopwatch.Elapsed} s)");
         }
 
     }
