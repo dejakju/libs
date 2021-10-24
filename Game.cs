@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
 
-namespace Kju
+namespace libs
 {
+    /// TODO: Export to subfolders?!
+    /// and make much more dynamic...
     public class Game
     {
         public void Start()
         {
-            Title = "Paint Drying - The Game!";
+            Title = "The Title";
             RunMainMenu();
         }
 
         private void RunMainMenu()
         {
-            string prompt = "Welcome to the Paint Dryin Simulator. What would you like to do?";
+            string prompt = "What would you like to do?";
             string[] options = { "Play", "About", "Exit" };
             string logo = @"
 

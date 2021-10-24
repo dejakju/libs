@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kju
+namespace libs
 {
     public static class Test
     {
@@ -14,7 +14,7 @@ namespace Kju
                 "One", "Two", "Three", "Four", "Fife", "Six", "Seven", "Eight", "Nine",
                 "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran",
+                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares",
                 "Battlestar Galactica", "Bird of Prey", "X-Wing", "Enterprise", "Defiand", "Tie Fighter", "Quadron Confinement", "Prometheus", "Warp Beacon",
                 "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "41", "42"
             };
@@ -28,8 +28,6 @@ namespace Kju
                     System.Console.WriteLine($"{i.ToUpper()}");
                 });
             }, "applying some filter methods to a list");
-
-            // Run_Memoization_Test();
         }
         
         public static void Run_ListFancynames_Test()

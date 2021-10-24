@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace Kju
+namespace libs
 {
     public static class Math
     {
-        // as far as i can remember ;)
         public static double PI = 3.14159265358979323846264338327950288;
-
-        // as far as i can remember, too
         public static double E = 2.718281828459045;
 
         // Calculate the n-th fibonacci number using the memoization technique

@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 
-namespace Kju
+namespace libs
 {
     public class Node<T>
     {
         #region Private Members
+
         private T data;
         private Node<T> next;
+
         #endregion
 
         #region Constructors
+
         public Node()
         {
             data = default;
@@ -27,9 +30,11 @@ namespace Kju
             data = o;
             next = n;
         }
+
         #endregion
 
-        #region Public Getters/Setters
+        #region Public Getters and Setters
+
         public void setData(T o)
         {
             data = o;
@@ -49,6 +54,7 @@ namespace Kju
         {
             return next;
         }
+        
         #endregion
     }
 }

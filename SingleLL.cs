@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Kju
+namespace libs
 {
     public class SingleLL<T>
     {

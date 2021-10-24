@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Kju
+namespace libs
 {
     public class ExecException : System.Exception
     {

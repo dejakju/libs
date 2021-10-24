@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Kju
+namespace libs
 {
     public class CoreException : System.Exception
     {
@@ -37,6 +37,7 @@ namespace Kju
                 }
             }
         }
+
         public static Stopwatch Measure(this Action a)
         {
             Stopwatch stopwatch = new Stopwatch();

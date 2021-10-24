@@ -3,21 +3,58 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace Kju
+namespace libs
 {
     public class DOSException : System.Exception
     {
         public DOSException() { }
         public DOSException(string message) : base(message) { }
-        public DOSException(string message, System.Exception inner) : base(message, inner) { }
-        protected DOSException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        // public DOSException(string message, System.Exception inner) : base(message, inner) { }
+        // protected DOSException(
+        //     System.Runtime.Serialization.SerializationInfo info,
+        //     System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 
     public static class DOS
     {
         #region File IO
+        public static DirectoryInfo CreateDir(string name)
+        {
+            try
+            {
+                return Directory.CreateDirectory(name);
+            }
+            catch (IOException e)
+            {
+                throw new DOSException($"{e.ToString()}");
+            }
+            // catch (System.UnauthorizedAccessException e)
+            // {
+            //     Console.WriteLine($"You don't have the required permission.");
+            // }
+            // catch (System.ArgumentException e)
+            // {
+            //     Console.WriteLine($"The specified path '{name}' contains only white space, one or more invalid characters, or none at all.");
+            // }
+            // catch (System.ArgumentNullException e)
+            // {
+            //     Console.WriteLine($"The specified path '{name}' is null.");
+            // }
+            // catch (System.PathTooLongException e)
+            // {
+            //     Console.WriteLine($"The specified path, file name, or both exceed the system-defined maximum length.");
+            // }
+            // catch (System.DirectoryNotFoundException e)
+            // {
+            //     Console.WriteLine($"The specified path is invalid (e.g., it is on an unmapped drive).");
+            // }
+            // catch (System.NotSupportedException e)
+            // {
+            //     Console.WriteLine($"The specified path '{name}' contains a colon character (:) that is not part of a drive label (\"C:\")");
+            // }
+        }
+
+
         public static IEnumerable<T> GetActiveDrives<T>(this IEnumerable<T> items, Func<T, bool> f)
         {
             string[] drives = Environment.GetLogicalDrives();
