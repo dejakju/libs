@@ -45,6 +45,15 @@ namespace libs
             }, "LIST FANCY NAMES");
         }
 
+        public static void Run_Fibonacci_Test()
+        {
+            Dictionary<int, ulong> m = new Dictionary<int, ulong>();
+            for (int i = 0; i < 80; i++)
+            {
+                Console.WriteLine($"The #{i}-th fib number is = {Math.NthFibonacci(i, m)}");
+            }
+        }        
+
 
    }
 }
