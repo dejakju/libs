@@ -17,8 +17,7 @@ namespace libs
             Console.ResetColor();
 
 
-
-            Test.Run_Hash_Test();
+            Test.Run_Menu_Test();
         }
 
     }

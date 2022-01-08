@@ -44,7 +44,7 @@ namespace libs
                     fancyNames.Where(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
             }, "LIST FANCY NAMES");
         }
-
+// 
         public static void Run_Fibonacci_Test()
         {
             Dictionary<int, ulong> m = new Dictionary<int, ulong>();
@@ -59,34 +59,75 @@ namespace libs
             System.Console.Write($"Enter a phrase or word: ");
             string input = Console.ReadLine();
 
-            // MD5
-            System.Console.WriteLine("MD5:".PadRight(6) + $"{Hash.MD5(input)}");
-            // SHA1
-            System.Console.WriteLine("SHA1:".PadRight(6) + $"{Hash.SHA1(input)}");
-            // Encode (string -> byte array)
-            var encoded = Hash.Encode(input);
-            System.Console.WriteLine($"Encoded:");
-            for (int ctr = 0; ctr < encoded.Length; ctr++)
+            if (!string.IsNullOrEmpty(input))
             {
-                System.Console.Write("{0:X2}\t", encoded[ctr]);
-                if ((ctr+1) % 16 == 0)
-                    System.Console.WriteLine();
+                // MD5
+                System.Console.WriteLine("MD5:".PadRight(6) + $"{Hash.MD5(input)}");
+                // SHA1
+                System.Console.WriteLine("SHA1:".PadRight(6) + $"{Hash.SHA1(input)}");
+                // Encode (string -> byte array)
+                var encoded = Hash.Encode(input);
+                System.Console.WriteLine($"Encoded:");
+                for (int ctr = 0; ctr < encoded.Length; ctr++)
+                {
+                    System.Console.Write("{0:X2}\t", encoded[ctr]);
+                    if ((ctr+1) % 16 == 0)
+                        System.Console.WriteLine();
+                }
+                // Decode (byte array -> string)
+                var decoded = Hash.Decode(encoded);
+                System.Console.WriteLine($"\nDecoded:\n{decoded}");
+                // Encrypt
+                var encrypted = Hash.Encrypt(Hash.Encode(input), "kfdkfd", "12345678");
+                System.Console.WriteLine($"Encrypted:");
+                for (int ctr = 0; ctr < encrypted.Length; ctr++)
+                {
+                    System.Console.Write("{0:X2}\t", encrypted[ctr]);
+                    if ((ctr+1) % 16 == 0)
+                        System.Console.WriteLine();
+                }
+                // Decrypt
+                var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "kfdkfd", "12345678"));
+                System.Console.WriteLine($"\nDecrypted:\n{decrypted}");
             }
-            // Decode (byte array -> string)
-            var decoded = Hash.Decode(encoded);
-            System.Console.WriteLine($"\nDecoded:\n{decoded}");
-            // Encrypt
-            var encrypted = Hash.Encrypt(Hash.Encode(input), "kfdkfd", "12345678");
-            System.Console.WriteLine($"Encrypted:");
-            for (int ctr = 0; ctr < encrypted.Length; ctr++)
+
+        }
+
+        public static void Run_Menu_Test()
+        {
+            string title = "Files V4.6";
+            string[] options = { "Play", "About", "Prefs", "Exit" };
+            string prompt = "Select an option and hit ENTER\n";
+
+            DOS.CreateMenu(prompt, options, title);
+            int selectedIndex = DOS.RunMenu();
+
+            while (selectedIndex != 3)
             {
-                System.Console.Write("{0:X2}\t", encrypted[ctr]);
-                if ((ctr+1) % 16 == 0)
-                    System.Console.WriteLine();
+                 switch (selectedIndex)
+                 {
+                    case 0:
+                        Console.WriteLine("We're gonna play...");
+                        Console.ReadKey(true);
+                        break;
+                    case 1:
+                        Console.WriteLine("About this app\nPress the HOME key to coontinue...");
+                        DOS.WaitForKey(ConsoleKey.Home);
+                        break;
+                    case 2:
+                        Console.WriteLine("Setting Preferences...find the special key");
+                        if (DOS.WaitForKey(ConsoleKey.H))
+                        {
+                            Console.WriteLine("You found the special H key");
+                            Console.ReadKey(true);
+                        }
+                        break;
+                     default:
+                     break;
+                 }
+                selectedIndex = DOS.RunMenu();
             }
-            // Decrypt
-            var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "kfdkfd", "12345678"));
-            System.Console.WriteLine($"\nDecrypted:\n{decrypted}");
+
         }
 
 

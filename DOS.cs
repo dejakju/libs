@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace libs
@@ -123,24 +124,26 @@ namespace libs
         private static int mMenuSelectedIndex;
         private static string[] mMenuOptions;
         private static string mMenuPrompt;
-        private static string mMenuLogo;
+        private static string mMenuTitle;
 
         #endregion
 
         #region Menu Methods
 
-        public static void CreateMenu(string prompt, string[] options, string logo = "")
+        public static void CreateMenu(string prompt, string[] options, string title = "")
         {
+            mMenuSelectedIndex = 0;
             mMenuPrompt = prompt;
             mMenuOptions = options;
-            mMenuSelectedIndex = 0;
-            mMenuLogo = logo;
+            mMenuTitle = title;
         }
 
-        private static void DisplaymMenuOptions()
+        private static void DisplayMenuOptions()
         {
-            Console.Title = mMenuPrompt;
-            Console.WriteLine(mMenuLogo);
+            int maxLength = mMenuOptions.Max(o => o.Length);
+
+            Console.Title = mMenuTitle;
+            Console.WriteLine(mMenuPrompt);
             for (int i = 0; i < mMenuOptions.Length; i++)
             {
                 string currentOption = mMenuOptions[i];
@@ -161,8 +164,7 @@ namespace libs
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-                Console.ResetColor();
-                Console.WriteLine($"{prefix, 3}{currentOption, -15}{suffix,  3}");
+                Console.WriteLine($"{prefix, 3}{currentOption.PadLeft(maxLength+2, ' ')}{suffix,  3}");
             }
             Console.ResetColor();
         }
@@ -173,7 +175,7 @@ namespace libs
             do
             {
                 Console.Clear();
-                DisplaymMenuOptions();
+                DisplayMenuOptions();
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 keyPressed = keyInfo.Key;
@@ -200,6 +202,23 @@ namespace libs
             return mMenuSelectedIndex;
         }
 
+
+        public static bool WaitForKey(ConsoleKey key)
+        {
+            ConsoleKey keyPressed;
+            do
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                keyPressed = keyInfo.Key;
+
+                if (keyPressed == key)
+                    return true;
+
+
+            } while (keyPressed != key);
+
+            return false;
+        }
         #endregion
 
     }
