@@ -28,64 +28,61 @@ namespace libs
 
     public enum DOSCode
     {
-        /*
-        #define ERROR_NO_FREE_STORE		  103
-        #define ERROR_TASK_TABLE_FULL		  105
-        #define ERROR_BAD_TEMPLATE		  114
-        #define ERROR_BAD_NUMBER		  115
-        #define ERROR_REQUIRED_ARG_MISSING	  116
-        #define ERROR_KEY_NEEDS_ARG		  117
-        #define ERROR_TOO_MANY_ARGS		  118
-        #define ERROR_UNMATCHED_QUOTES		  119
-        #define ERROR_LINE_TOO_LONG		  120
-        #define ERROR_FILE_NOT_OBJECT		  121
-        #define ERROR_INVALID_RESIDENT_LIBRARY	  122
-        #define ERROR_NO_DEFAULT_DIR		  201
-        #define ERROR_OBJECT_IN_USE		  202
-        #define ERROR_OBJECT_EXISTS		  203
-        #define ERROR_DIR_NOT_FOUND		  204
-        #define ERROR_OBJECT_NOT_FOUND		  205
-        #define ERROR_BAD_STREAM_NAME		  206
-        #define ERROR_OBJECT_TOO_LARGE		  207
-        #define ERROR_ACTION_NOT_KNOWN		  209
-        #define ERROR_INVALID_COMPONENT_NAME	  210
-        #define ERROR_INVALID_LOCK		  211
-        #define ERROR_OBJECT_WRONG_TYPE		  212
-        #define ERROR_DISK_NOT_VALIDATED	  213
-        #define ERROR_DISK_WRITE_PROTECTED	  214
-        #define ERROR_RENAME_ACROSS_DEVICES	  215
-        #define ERROR_DIRECTORY_NOT_EMPTY	  216
-        #define ERROR_TOO_MANY_LEVELS		  217
-        #define ERROR_DEVICE_NOT_MOUNTED	  218
-        #define ERROR_SEEK_ERROR		  219
-        #define ERROR_COMMENT_TOO_BIG		  220
-        #define ERROR_DISK_FULL			  221
-        #define ERROR_DELETE_PROTECTED		  222
-        #define ERROR_WRITE_PROTECTED		  223
-        #define ERROR_READ_PROTECTED		  224
-        #define ERROR_NOT_A_DOS_DISK		  225
-        #define ERROR_NO_DISK			  226
-        #define ERROR_NO_MORE_ENTRIES		  232
-        #define ERROR_IS_SOFT_LINK		  233
-        #define ERROR_OBJECT_LINKED		  234
-        #define ERROR_BAD_HUNK			  235
-        #define ERROR_NOT_IMPLEMENTED		  236
-        #define ERROR_RECORD_NOT_LOCKED		  240
-        #define ERROR_LOCK_COLLISION		  241
-        #define ERROR_LOCK_TIMEOUT		  242
-        #define ERROR_UNLOCK_ERROR		  243
+        ERROR_NO_FREE_STORE,
+        ERROR_TASK_TABLE_FULL,
+        ERROR_BAD_TEMPLATE,
+        ERROR_BAD_NUMBER,
+        ERROR_REQUIRED_ARG_MISSING,
+        ERROR_KEY_NEEDS_ARG,
+        ERROR_TOO_MANY_ARGS,
+        ERROR_UNMATCHED_QUOTES,
+        ERROR_LINE_TOO_LONG,
+        ERROR_FILE_NOT_OBJECT,
+        ERROR_INVALID_RESIDENT_LIBRARY,
+        ERROR_NO_DEFAULT_DIR,
+        ERROR_OBJECT_IN_USE,
+        ERROR_OBJECT_EXISTS,
+        ERROR_DIR_NOT_FOUND,
+        ERROR_OBJECT_NOT_FOUND,
+        ERROR_BAD_STREAM_NAME,
+        ERROR_OBJECT_TOO_LARGE,
+        ERROR_ACTION_NOT_KNOWN,
+        ERROR_INVALID_COMPONENT_NAME,
+        ERROR_INVALID_LOCK,
+        ERROR_OBJECT_WRONG_TYPE,
+        ERROR_DISK_NOT_VALIDATED,
+        ERROR_DISK_WRITE_PROTECTED,
+        ERROR_RENAME_ACROSS_DEVICES,
+        ERROR_DIRECTORY_NOT_EMPTY,
+        ERROR_TOO_MANY_LEVELS,
+        ERROR_DEVICE_NOT_MOUNTED,
+        ERROR_SEEK_ERROR,
+        ERROR_COMMENT_TOO_BIG,
+        ERROR_DISK_FULL,
+        ERROR_DELETE_PROTECTED,
+        ERROR_WRITE_PROTECTED,
+        ERROR_READ_PROTECTED,
+        ERROR_NOT_A_DOS_DISK,
+        ERROR_NO_DISK,
+        ERROR_NO_MORE_ENTRIES,
+        ERROR_IS_SOFT_LINK,
+        ERROR_OBJECT_LINKED,
+        ERROR_BAD_HUNK,
+        ERROR_NOT_IMPLEMENTED,
+        ERROR_RECORD_NOT_LOCKED,
+        ERROR_LOCK_COLLISION,
+        ERROR_LOCK_TIMEOUT,
+        ERROR_UNLOCK_ERROR,
 
-        #define RETURN_OK			 0
-        #define RETURN_WARN			 5
-        #define RETURN_ERROR		10
-        #define RETURN_FAIL			20
+        RETURN_OK,
+        RETURN_WARN,
+        RETURN_ERROR,
+        RETURN_FAIL,
 
-        #define SIGBREAKB_CTRL_C   12
-        #define SIGBREAKB_CTRL_D   13
-        #define SIGBREAKB_CTRL_E   14
-        #define SIGBREAKB_CTRL_F   15
-        */
-
+        SIGBREAKB_CTRL_C,
+        SIGBREAKB_CTRL_D,
+        SIGBREAKB_CTRL_E,
+        SIGBREAKB_CTRL_F
     }
 
     public static class DOS
@@ -140,31 +137,34 @@ namespace libs
 
         private static void DisplayMenuOptions()
         {
-            int maxLength = mMenuOptions.Max(o => o.Length);
+            int maxLength = mMenuOptions.Max(o => o.Length) % 2 == 0 ? mMenuOptions.Max(o => o.Length) + 2 : mMenuOptions.Max(o => o.Length) + 1;
+            string prefix = "";
+            string suffix = "";
 
             Console.Title = mMenuTitle;
-            Console.WriteLine(mMenuPrompt);
+
+            DOS.WriteLine(mMenuPrompt);
+
+            DOS.SetCursorInvisible();
+            DOS.SetForegroundColor(ConsoleColor.Cyan);
+            DOS.WriteLine($"{DOS.GetEnv("username")}@{DOS.GetEnv("computername")} running on {DOS.GetEnv("processor_identifier")} (OS: {DOS.GetEnv("os")})\n");
+            DOS.ResetColor();
+
             for (int i = 0; i < mMenuOptions.Length; i++)
             {
                 string currentOption = mMenuOptions[i];
-                string prefix;
-                string suffix;
 
                 if (i == mMenuSelectedIndex)
                 {
-                    prefix = "[";
-                    suffix = "]";
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.White;
                 }
                 else
                 {
-                    prefix = " ";
-                    suffix = " ";
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-                Console.WriteLine($"{prefix, 3}{currentOption.PadLeft(maxLength+2, ' ')}{suffix,  3}");
+                Console.WriteLine($"{prefix}{currentOption.PadLeft(maxLength, ' ')}{suffix}");
             }
             Console.ResetColor();
         }
@@ -206,6 +206,7 @@ namespace libs
         public static bool WaitForKey(ConsoleKey key)
         {
             ConsoleKey keyPressed;
+
             do
             {
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -219,6 +220,49 @@ namespace libs
 
             return false;
         }
+
+
+        public static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("\nPress ANY KEY to continue...\n");
+            Console.ReadKey(true);
+        }
+
+        public static void SetCursorVisible()
+        {
+            Console.CursorVisible = true;
+        }
+
+        public static void SetCursorInvisible()
+        {
+            Console.CursorVisible = false;
+        }
+
+        public static void SetForegroundColor(ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+        }
+
+        public static void SetBackgroundColor(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+        }
+
+        public static void ResetColor()
+        {
+            Console.ResetColor();
+        }
+
+        public static void Write(string s)
+        {
+            Console.Write(s);
+        }
+
+        public static void WriteLine(string s)
+        {
+            Console.WriteLine(s);
+        }
+
         #endregion
 
     }

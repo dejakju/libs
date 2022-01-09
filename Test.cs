@@ -48,9 +48,20 @@ namespace libs
         public static void Run_Fibonacci_Test()
         {
             Dictionary<int, ulong> m = new Dictionary<int, ulong>();
-            for (int i = 0; i < 80; i++)
+
+            System.Console.Write($"Enter a positive integer between 1 and 79: ");
+            string input = Console.ReadLine();
+            int number = 0;
+
+            if (!string.IsNullOrEmpty(input))
             {
-                Console.WriteLine($"The #{i}-th fib number is = {Math.NthFibonacci(i, m)}");
+                if (int.TryParse(input, out number) && number is > 0 and < 80)
+                {
+                    for (int i = 0; i < number + 1; i++)
+                    {
+                        Console.WriteLine($"The #{i}-th fib number is = {Math.NthFibonacci(i, m)}");
+                    }
+                }
             }
         }
 
@@ -96,25 +107,39 @@ namespace libs
         public static void Run_Menu_Test()
         {
             string title = "Files V4.6";
-            string[] options = { "Play", "About", "Prefs", "Exit" };
-            string prompt = "Select an option and hit ENTER\n";
+            string[] options = { "Hash", "Math", "Fancy names", "Prefs", "Exit" };
+            string prompt = @"
+  _____.__.__  ___________       
+_/ ____\__|  | \_   _____/ ______
+\   __\|  |  |  |    __)_ /  ___/
+ |  |  |  |  |__|        \\___ \ 
+ |__|  |__|____/_______  /____  >
+                       \/     \/  V4.6
+";
 
             DOS.CreateMenu(prompt, options, title);
             int selectedIndex = DOS.RunMenu();
 
-            while (selectedIndex != 3)
+            while (selectedIndex != (options.Length - 1))
             {
                  switch (selectedIndex)
                  {
                     case 0:
-                        Console.WriteLine("We're gonna play...");
-                        Console.ReadKey(true);
+                        Console.WriteLine("Invoking Hash test...");
+                        Run_Hash_Test();
+                        DOS.PressAnyKeyToContinue();
                         break;
                     case 1:
-                        Console.WriteLine("About this app\nPress the HOME key to coontinue...");
-                        DOS.WaitForKey(ConsoleKey.Home);
+                        Console.WriteLine("Invoking Math test...\n");
+                        Run_Fibonacci_Test();
+                        DOS.PressAnyKeyToContinue();
                         break;
                     case 2:
+                        Console.WriteLine("Invoking Fancy names test...\n");
+                        Run_ListFancynames_Test();
+                        DOS.PressAnyKeyToContinue();
+                        break;
+                    case 3:
                         Console.WriteLine("Setting Preferences...find the special key");
                         if (DOS.WaitForKey(ConsoleKey.H))
                         {
@@ -122,8 +147,8 @@ namespace libs
                             Console.ReadKey(true);
                         }
                         break;
-                     default:
-                     break;
+                    default:
+                        break;
                  }
                 selectedIndex = DOS.RunMenu();
             }
