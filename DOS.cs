@@ -258,9 +258,19 @@ namespace libs
             Console.Write(s);
         }
 
+        public static void Write(string? value, object param)
+        {
+            Console.Write(value, param);
+        }
+
         public static void WriteLine(string s)
         {
             Console.WriteLine(s);
+        }
+
+        public static void NewLine()
+        {
+            Console.Write(Environment.NewLine);
         }
 
         #endregion
