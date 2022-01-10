@@ -35,7 +35,7 @@ namespace libs
                            ░                                                  
 ";
             DOS.CreateMenu(prompt, options, logo);
-            int selectedIndex = DOS.RunMenu();
+            int selectedIndex = DOS.SelectMenu();
 
             switch (selectedIndex)
             {
@@ -96,7 +96,7 @@ namespace libs
             string prompt = "What color paint would you like to watch dry?";
             string[] options = { "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
             DOS.CreateMenu(prompt, options, logo);
-            int selectedIndex = DOS.RunMenu();
+            int selectedIndex = DOS.SelectMenu();
 
             BackgroundColor = ConsoleColor.Black;
             switch (selectedIndex)

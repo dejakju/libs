@@ -48,6 +48,17 @@ namespace libs
             }, "LIST FANCY NAMES");
         }
 // 
+
+        public static void Run_Ctor_Test()
+        {
+            DOS.NewLine();
+            DOS.SetForegroundColor(ConsoleColor.DarkMagenta);
+            DOS.Write($"Fire in the hole!");
+            DOS.NewLine();
+            DOS.ResetColor();
+            DOS.PressAnyKeyToContinue();
+        }
+
         public static void Run_Fibonacci_Test()
         {
             Dictionary<int, ulong> m = new Dictionary<int, ulong>();
@@ -82,7 +93,9 @@ namespace libs
 ";
 
             DOS.CreateMenu(prompt, options, title);
-            int selectedIndex = DOS.RunMenu();
+            DOS.mMenuPrefix = " ** ";
+            DOS.mMenuSuffix = " ** ";
+            int selectedIndex = DOS.SelectMenu();
 
             while (selectedIndex != (options.Length - 1))
             {
@@ -107,7 +120,7 @@ namespace libs
                     default:
                         break;
                  }
-                selectedIndex = DOS.RunMenu();
+                selectedIndex = DOS.SelectMenu();
             }
 
             Run_Menu_Test(); 
@@ -171,7 +184,7 @@ namespace libs
         public static void Run_Menu_Test()
         {
             string title = "Files V4.6";
-            string[] options = { "Hash", "Math", "Fancy names", "Prefs", "Exit" };
+            string[] options = { "Hash algos", "Math related", "Fancy names", "Prefs", "Exit" };
             string prompt = @"
   _____.__.__  ___________       
 _/ ____\__|  | \_   _____/ ______
@@ -182,7 +195,9 @@ _/ ____\__|  | \_   _____/ ______
 ";
 
             DOS.CreateMenu(prompt, options, title);
-            int selectedIndex = DOS.RunMenu();
+            DOS.mMenuPrefix = " >> ";
+            DOS.mMenuSuffix = " << ";
+            int selectedIndex = DOS.SelectMenu();
 
             while (selectedIndex != (options.Length - 1))
             {
@@ -212,7 +227,7 @@ _/ ____\__|  | \_   _____/ ______
                     default:
                         break;
                  }
-                selectedIndex = DOS.RunMenu();
+                selectedIndex = DOS.SelectMenu();
             }
 
         }

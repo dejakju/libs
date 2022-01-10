@@ -12,8 +12,7 @@ namespace libs
 
         static void Main(string[] args)
         {
-
-            Test.Run_Menu_Test();
+            Test.Run_Ctor_Test();
         }
 
     }

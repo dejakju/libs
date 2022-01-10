@@ -122,6 +122,8 @@ namespace libs
         private static string[] mMenuOptions;
         private static string mMenuPrompt;
         private static string mMenuTitle;
+        public static string mMenuPrefix { get; set; }
+        public static string mMenuSuffix { get; set; }
 
         #endregion
 
@@ -138,12 +140,12 @@ namespace libs
         private static void DisplayMenuOptions()
         {
             int maxLength = mMenuOptions.Max(o => o.Length) % 2 == 0 ? mMenuOptions.Max(o => o.Length) + 2 : mMenuOptions.Max(o => o.Length) + 1;
-            string prefix = "";
-            string suffix = "";
 
             Console.Title = mMenuTitle;
 
+            DOS.SetForegroundColor(ConsoleColor.Green);
             DOS.WriteLine(mMenuPrompt);
+            DOS.ResetColor();
 
             DOS.SetCursorInvisible();
             DOS.SetForegroundColor(ConsoleColor.Cyan);
@@ -153,23 +155,26 @@ namespace libs
             for (int i = 0; i < mMenuOptions.Length; i++)
             {
                 string currentOption = mMenuOptions[i];
+                string prefix = mMenuPrefix;
+                string suffix = mMenuSuffix;
 
                 if (i == mMenuSelectedIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.White;
+                    Console.WriteLine($"{prefix}{currentOption.PadLeft(maxLength, ' ')}{suffix}");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
+                    Console.WriteLine($"{currentOption.PadLeft(maxLength, ' ')}");
                 }
-                Console.WriteLine($"{prefix}{currentOption.PadLeft(maxLength, ' ')}{suffix}");
             }
             Console.ResetColor();
         }
 
-        public static int RunMenu()
+        public static int SelectMenu(int selectedIndex = 0)
         {
             ConsoleKey keyPressed;
             do
@@ -258,7 +263,7 @@ namespace libs
             Console.Write(s);
         }
 
-        public static void Write(string? value, object param)
+        public static void Write(string value, object param)
         {
             Console.Write(value, param);
         }
