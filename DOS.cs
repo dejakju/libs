@@ -233,6 +233,58 @@ namespace libs
             Console.ReadKey(true);
         }
 
+        public static void Clear()
+        {
+            Console.Clear();
+        }
+
+        public static void Cls()
+        {
+            Console.Clear();
+        }
+
+        public static (int, int) GetCursorPos()
+        {
+            (int left, int top) mCursorPosition = Console.GetCursorPosition();
+
+            return mCursorPosition;
+        }
+
+        public static void SetCursorPos(int left, int top)
+        {
+            Console.SetCursorPosition(left, top);
+        }
+
+        public static int GetBufferWidth()
+        {
+            return Console.BufferWidth;
+        }
+
+        public static int GetBufferHeight()
+        {
+            return Console.BufferHeight;
+        }
+
+        public static int GetWindowWidth()
+        {
+            return Console.WindowWidth;
+        }
+
+        public static int GetWindowHeight()
+        {
+            return Console.WindowHeight;
+        }
+
+        public static int GetWindowMaxWidth()
+        {
+            return Console.LargestWindowWidth;
+        }
+
+        public static int GetWindowMaxHeight()
+        {
+            return Console.LargestWindowHeight;
+        }
+
         public static void SetCursorVisible()
         {
             Console.CursorVisible = true;

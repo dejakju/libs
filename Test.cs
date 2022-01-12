@@ -7,6 +7,23 @@ namespace libs
     public static class Test
     {
         private static List<string> fancyNames = LoadFancyNames();
+
+        public static void Run_Ctor_Test()
+        {
+            DOS.NewLine();
+            DOS.SetForegroundColor(ConsoleColor.Magenta);
+            DOS.Write($"Computer = {DOS.GetEnv("COMPUTERNAME")}, User = {DOS.GetEnv("USERNAME")}");
+            DOS.NewLine();
+            DOS.ResetColor();
+            DOS.PressAnyKeyToContinue();
+            DOS.SetCursorInvisible();
+            DOS.Cls();
+
+            Screen scr = new Screen();
+            scr.Run();
+
+        }
+
         private static List<string> LoadFancyNames()
         {
            List<string> fancyNames = new List<string>() {
@@ -46,17 +63,6 @@ namespace libs
                     DOS.PressAnyKeyToContinue();
                     fancyNames.Where(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
             }, "LIST FANCY NAMES");
-        }
-// 
-
-        public static void Run_Ctor_Test()
-        {
-            DOS.NewLine();
-            DOS.SetForegroundColor(ConsoleColor.DarkMagenta);
-            DOS.Write($"Fire in the hole!");
-            DOS.NewLine();
-            DOS.ResetColor();
-            DOS.PressAnyKeyToContinue();
         }
 
         public static void Run_Fibonacci_Test()
