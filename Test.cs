@@ -10,15 +10,6 @@ namespace libs
 
         public static void Run_Ctor_Test()
         {
-            DOS.NewLine();
-            DOS.SetForegroundColor(ConsoleColor.Magenta);
-            DOS.Write($"Computer = {DOS.GetEnv("COMPUTERNAME")}, User = {DOS.GetEnv("USERNAME")}");
-            DOS.NewLine();
-            DOS.ResetColor();
-            DOS.PressAnyKeyToContinue();
-            DOS.SetCursorInvisible();
-            DOS.Cls();
-
             Screen scr = new Screen();
             scr.Run();
 
