@@ -10,7 +10,7 @@ namespace libs
 
         public static void Run_Ctor_Test()
         {
-            Screen scr = new Screen();
+            Screen scr = new Screen("MTEXT");
             scr.Run();
 
         }

@@ -45,6 +45,13 @@ namespace libs
         private int mOptionsMaxWidth;
         public int OptionsMaxWidth { get => mOptionsMaxWidth; set => mOptionsMaxWidth = value; }
 
+        private string mDocument;
+        public string Document { get => mDocument; set => mDocument = value; }
+
+        private string mDescription;
+        public string Description { get => mDescription; set => mDescription = value; }
+
+
 
 
 
@@ -61,6 +68,8 @@ namespace libs
             Rows = Console.BufferHeight;
             CurrentCol = Console.GetCursorPosition().Left;
             CurrentRow = Console.GetCursorPosition().Top;
+
+            Document = "Curval.NET";
         }
 
         public void Run()
@@ -87,7 +96,114 @@ namespace libs
             OnLoadDynamicContent();
         }
 
-        private void DrawBasicHeaderAndFooter()
+
+        private void WriteAt((int left, int top) position, char character)
+        {
+            Console.SetCursorPosition(position.left, position.top);
+            Console.Write(character);
+            CurrentCol++;
+        }
+
+        private void OnFrameUpdate()
+        {
+            DrawFooter();
+
+            // SET DEFAULT STARTUP CURSOR POSITION
+            OnCursorStartupLocation(1, 1);
+
+            OnCommand();
+
+            // Save Cursor Position
+            int left = Console.GetCursorPosition().Left;
+            int top = Console.GetCursorPosition().Top;
+
+            // Update Cursor Position
+            Console.SetCursorPosition(80, 5);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.Write($"X: {left} Y: {top}");
+    
+            // Reset Cursor position
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(left, top);
+        }
+
+        private void OnCommand()
+        {
+            OnCommandText();
+
+            switch (Command)
+            {
+                case ScreenCommand.QUIT:
+                    ExitApp();
+                    break;
+
+                case ScreenCommand.HEADER:
+                    OnShowHeader();
+                    break;
+
+                case ScreenCommand.LIST:
+                    Console.SetCursorPosition(0, 4);
+                    Console.ResetColor();
+
+                    char character = 'H';
+                    WriteAt(Console.GetCursorPosition(), character);
+
+                    Console.Write($"Listing contents... {CurrentCol}:{CurrentRow}...");
+                    Console.ReadKey(true);
+                    break;
+            }
+        }
+
+        private void OnCommandText()
+        {
+            string command = Console.ReadLine();
+
+            // Clear the command text immediately
+            Console.SetCursorPosition(0, 1);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write("".PadRight(ScreenWidth, ' '));
+            Console.ResetColor();
+
+            // If there's no valid command, skip
+            if (string.IsNullOrEmpty(command))
+            {
+                Command = ScreenCommand.NOOP;
+                return;
+            }
+
+            // Trim spaces and convert to uppercase letters
+            CommandText = command.Trim().ToUpper();
+
+            switch (CommandText)
+            {
+                case "H":
+                    Command = ScreenCommand.HEADER;
+                    break;
+
+                case "L":
+                    Command = ScreenCommand.LIST;
+                    break;
+
+                case "L DIR":
+                    Console.SetCursorPosition(80, 25);
+                    Console.Write($"{mCurrentCol}:{CurrentRow}");
+                    Console.SetCursorPosition(0, 1);
+                    break;
+
+                case "Q":
+                    Command = ScreenCommand.QUIT;
+                    break;
+
+                default:
+                    Command = ScreenCommand.NOOP;
+                    break;
+            }
+        }
+
+        private void DrawHeader()
         {
             // HEAD
             Console.SetCursorPosition(0, 0);
@@ -95,11 +211,17 @@ namespace libs
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write($" M\\TEXT V4.6 {DOS.GetEnv("COMPUTERNAME")} WIDTH={ScreenWidth} HEIGHT={ScreenHeight}".PadRight(ScreenWidth, ' '));
             Console.ResetColor();
+
             Console.SetCursorPosition(0, 2);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write($"_".PadRight(ScreenWidth, '_'));
             Console.ResetColor();
+        }
+
+        private void DrawBasicHeaderAndFooter()
+        {
+            DrawHeader();
 
             // BODY
             Console.SetCursorPosition(0, 3);
@@ -119,82 +241,45 @@ namespace libs
         {
             // UPDATE FOOT
             Console.SetCursorPosition(0, ScreenHeight - 2);
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write($"COL={CurrentCol} ROW={CurrentRow} -- COLS={Cols} ROWS={Rows}".PadRight(ScreenWidth, ' '));
+            Console.Write($"DOCUMENT={Document} | WIDTH={ScreenWidth} HEIGHT={mScreenHeight} | BUFFER WIDTH/COLS={Cols} BUFFER HEIGHT/ROWS={Rows}".PadRight(ScreenWidth, ' '));
             Console.ResetColor();
         }
 
-        private void OnFrameUpdate()
+        private void OnShowHeader()
         {
-            DrawFooter();
-
-            // SET DEFAULT STARTUP CURSOR POSITION
-            OnCursorStartupLocation(0, 1);
-
-            OnCommand();
-        }
-
-        private void OnCommand()
-        {
-            OnCommandText();
-
-            switch (Command)
-            {
-                case ScreenCommand.QUIT:
-                    ExitApp();
-                    break;
-
-                case ScreenCommand.LIST:
-                    Console.SetCursorPosition(0, 4);
-                    Console.ResetColor();
-                    Console.Write($"Listing contents... {mCurrentCol}:{CurrentRow}...");
-                    break;
-            }
-        }
-
-        private void OnCommandText()
-        {
-            OnKeyDown();
-
-            string command = Console.ReadLine();
-
-            // Clear the command text immediately
-            Console.SetCursorPosition(0, 1);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(15, 5);
+            //
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.Write("".PadRight(ScreenWidth, ' '));
-            Console.ResetColor();
-
-            // If there's no valid command, skip
-            if (string.IsNullOrEmpty(command))
-                return;
-
-            // Trim spaces and convert to uppercase letters
-            CommandText = command.Trim().ToUpper();
-
-            switch (CommandText)
-            {
-                case "L":
-                    Command = ScreenCommand.LIST;
-                    break;
-
-                case "L DIR":
-                    Console.SetCursorPosition(80, 25);
-                    Console.Write($"{mCurrentCol}:{CurrentRow}");
-                    Console.SetCursorPosition(0, 1);
-                    break;
-
-                case "Q":
-                    Command = ScreenCommand.QUIT;
-                    break;
-            }
+            Console.WriteLine("+------------------------+");
+            Console.SetCursorPosition(15, 6);
+            Console.WriteLine("| HEADER OF DOCUMENT9999 |");
+            Console.SetCursorPosition(15, 7);
+            Console.WriteLine("|                        |");
+            Console.SetCursorPosition(15, 8);
+            Console.WriteLine("|                        |");
+            Console.SetCursorPosition(15, 9);
+            Console.WriteLine("|                        |");
+            Console.SetCursorPosition(15, 10);
+            Console.WriteLine("|                        |");
+            Console.SetCursorPosition(15, 11);
+            Console.WriteLine("|                        |");
+            Console.SetCursorPosition(15, 12);
+            Console.WriteLine("+------------------------+");
+            Console.SetCursorPosition(15, 13);
+            Console.WriteLine("| HEADER OF DOCUMENT9999 |");
+            Console.SetCursorPosition(15, 14);
+            Console.WriteLine("+------------------------+");
+            //
+            Console.ReadKey(true);
+            Console.SetCursorPosition(1, 2);
         }
 
         private void OnKeyDown()
         {
             StringBuilder sb = new StringBuilder();
-
             ConsoleKey consoleKey;
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
 
@@ -205,30 +290,31 @@ namespace libs
                 case ConsoleKey.Backspace:
                     RedrawFrame();
                     break;
-                case ConsoleKey.Enter:
-                    RedrawFrame();
-                    break;
                 case ConsoleKey.UpArrow:
-                    RedrawFrame();
+                    CurrentRow--;
                     break;
                 case ConsoleKey.DownArrow:
-                    RedrawFrame();
+                    CurrentRow++;
                     break;
                 case ConsoleKey.LeftArrow:
-                    RedrawFrame();
+                    CurrentCol--;
                     break;
                 case ConsoleKey.RightArrow:
-                    RedrawFrame();
+                    CurrentCol++;
                     break;
-                default:
+                case >= ConsoleKey.A and <= ConsoleKey.Z:  
                     sb.Append(consoleKey);
                     break;
             }
+
+            Console.SetCursorPosition(CurrentCol, CurrentRow);
+            CommandText = sb.ToString();
         }
 
         private void ExitApp()
         {
             Active = false;
+            Console.Clear();
             Environment.Exit(0);
         }
 
@@ -247,13 +333,13 @@ namespace libs
             Console.ForegroundColor = ConsoleColor.White;
             for (int i = 0; i < 10; i++)
             {
-                Console.Write($" .");
+                Console.Write($" . ");
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.Write("DOCUMENT{i}");
+                Console.Write("DOCUMENT{i}".PadRight(14, ' '));
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine(" This is the .DSC description");
+                Console.WriteLine("This is the .DSC description");
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
             }
