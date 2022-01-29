@@ -18,11 +18,29 @@ namespace libs
         private string mScreenTitle;
         public string ScreenTitle { get => mScreenTitle; set => mScreenTitle = value; }
 
+        private int mX;
+        public int X { get => mX; set => mX = value; }
+
+        private int mY;
+        public int Y { get => mY; set => mY = value; }
+
+        private int mXOffset;
+        public int XOffset { get => mXOffset; set => mXOffset = value; }
+
+        private int mYOffset;
+        public int YOffset { get => mYOffset; set => mXOffset = value ; }
+
         private int mCols;
         public int Cols { get => mCols; set => mCols = value; }
 
         private int mRows;
         public int Rows { get => mRows; set => mRows = value; }
+
+        private int mScreenBufferWidth;
+        public int ScreenBufferWidth { get => mScreenBufferWidth; set => mScreenBufferWidth = value; }
+
+        private int mScreenBufferHeight;
+        public int ScreenBufferHeight { get => mScreenBufferHeight; set => mScreenBufferHeight = value; }
 
         private int mScreenWidth;
         public int ScreenWidth { get => mScreenWidth; set => mScreenWidth = value; }
@@ -45,6 +63,12 @@ namespace libs
         private int mOptionsMaxWidth;
         public int OptionsMaxWidth { get => mOptionsMaxWidth; set => mOptionsMaxWidth = value; }
 
+        private string mBereich;
+        public string Bereich { get => mBereich; set => mBereich = value; }
+
+        private string mGruppe;
+        public string Gruppe { get => mGruppe; set => mGruppe = value; }
+
         private string mDocument;
         public string Document { get => mDocument; set => mDocument = value; }
 
@@ -64,11 +88,14 @@ namespace libs
             ScreenWidth = Console.WindowWidth;
             ScreenHeight = Console.WindowHeight;
 
-            Cols = Console.BufferWidth;
-            Rows = Console.BufferHeight;
+            ScreenBufferWidth = Console.BufferWidth;
+            ScreenBufferHeight = Console.BufferHeight;
+
             CurrentCol = Console.GetCursorPosition().Left;
             CurrentRow = Console.GetCursorPosition().Top;
 
+            Bereich = "XCOM";
+            Gruppe = "LIBS";
             Document = "Curval.NET";
         }
 
@@ -100,6 +127,13 @@ namespace libs
         private void WriteAt((int left, int top) position, char character)
         {
             Console.SetCursorPosition(position.left, position.top);
+            Console.Write(character);
+            CurrentCol++;
+        }
+
+        private void WriteAt(int left, int top, char character)
+        {
+            Console.SetCursorPosition(left, top);
             Console.Write(character);
             CurrentCol++;
         }
@@ -149,10 +183,18 @@ namespace libs
 
                     char character = 'H';
                     WriteAt(Console.GetCursorPosition(), character);
+                    Console.WriteLine();
 
                     Console.Write($"Listing contents... {CurrentCol}:{CurrentRow}...");
                     Console.ReadKey(true);
                     break;
+
+                case ScreenCommand.LDIR:
+                    Console.SetCursorPosition(ScreenWidth-10,ScreenHeight-1);
+                    Console.Write($"{CurrentCol}:{CurrentRow}");
+                    Console.SetCursorPosition(1, 1);
+                    break;
+
             }
         }
 
@@ -176,7 +218,7 @@ namespace libs
 
             // Trim spaces and convert to uppercase letters
             CommandText = command.Trim().ToUpper();
-
+            
             switch (CommandText)
             {
                 case "H":
@@ -188,9 +230,7 @@ namespace libs
                     break;
 
                 case "L DIR":
-                    Console.SetCursorPosition(80, 25);
-                    Console.Write($"{mCurrentCol}:{CurrentRow}");
-                    Console.SetCursorPosition(0, 1);
+                    Command = ScreenCommand.LDIR;
                     break;
 
                 case "Q":
@@ -205,13 +245,14 @@ namespace libs
 
         private void DrawHeader()
         {
-            // HEAD
+            // HEAD _____________________________________________________________________________________________________________________________________
             Console.SetCursorPosition(0, 0);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write($" M\\TEXT V4.6 {DOS.GetEnv("COMPUTERNAME")} WIDTH={ScreenWidth} HEIGHT={ScreenHeight}".PadRight(ScreenWidth, ' '));
             Console.ResetColor();
 
+            // SEPARATOR LINE (3) )______________________________________________________________________________________________________________________
             Console.SetCursorPosition(0, 2);
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -243,7 +284,7 @@ namespace libs
             Console.SetCursorPosition(0, ScreenHeight - 2);
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.Write($"DOCUMENT={Document} | WIDTH={ScreenWidth} HEIGHT={mScreenHeight} | BUFFER WIDTH/COLS={Cols} BUFFER HEIGHT/ROWS={Rows}".PadRight(ScreenWidth, ' '));
+            Console.Write($"DOCUMENT={Document} | WIDTH={ScreenWidth} HEIGHT={ScreenHeight} | BUFFER WIDTH/COLS={ScreenBufferWidth} BUFFER HEIGHT/ROWS={ScreenBufferHeight}".PadRight(ScreenWidth, ' '));
             Console.ResetColor();
         }
 
@@ -409,6 +450,7 @@ namespace libs
         LIST,
         EDIT,
         DELETE,
+        LDIR,
         HEADER,
         ZORDER,
         CONFIRM,

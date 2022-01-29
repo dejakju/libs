@@ -10,9 +10,21 @@ namespace libs
 
         public static void Run_Ctor_Test()
         {
+            // Create  an Instance
             Screen scr = new Screen("MTEXT");
-            scr.Run();
 
+
+            scr.ScreenBufferWidth = 1024;
+            scr.ScreenBufferHeight = 4096;
+
+            scr.ScreenTitle = "M\\TEXT EXPERIMENTAL";
+            scr.ScreenWidth = 120;
+            scr.ScreenHeight = 52;
+
+            Console.SetWindowSize(scr.ScreenWidth, scr.ScreenHeight);
+
+            // Kick it!
+            scr.Run();
         }
 
         private static List<string> LoadFancyNames()
