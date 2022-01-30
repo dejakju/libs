@@ -21,7 +21,7 @@ namespace libs
             scr.ScreenWidth = 120;
             scr.ScreenHeight = 52;
 
-            Console.SetWindowSize(scr.ScreenWidth, scr.ScreenHeight);
+            scr.SetScreenSize(scr.ScreenWidth, scr.ScreenHeight);
 
             // Kick it!
             scr.Run();

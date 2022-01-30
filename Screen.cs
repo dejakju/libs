@@ -76,6 +76,12 @@ namespace libs
         public string Description { get => mDescription; set => mDescription = value; }
 
 
+        public int CanvasLeftPos { get; set; }
+        public int CanvasTopPos { get; set; }
+        public int CanvasRightPos { get; set; }
+        public int CanvasBottomPos { get; set; }
+        public int CanvasWidth { get; set; }
+        public int CanvasHeight { get; set; }
 
 
 
@@ -436,6 +442,24 @@ namespace libs
             } while (keyPressed != ConsoleKey.Enter && Console.KeyAvailable);
         }
 
+        internal void SetScreenSize(int screenWidth, int screenHeight)
+        {
+            Console.SetWindowSize(screenWidth, screenHeight);
+        }
+
+        internal string GetCharacterAt(int columns, int rows)
+        {
+            for (int y = 0; y < columns; y++)
+            {
+                for (int x = 0; x < rows; x++)
+                {
+                    Console.SetCursorPosition(x, y);
+                    // ToDo
+                }
+            }
+            return string.Empty;
+        }
+
         private void OnCursorStartupLocation(int left = 0, int top = 2)
         {
             Console.SetCursorPosition(left, top);
@@ -462,6 +486,7 @@ namespace libs
         PLUS,
         MINUS,
         COLUMN,
+        ROW,
         QUIT,
         FIND,
         DIRECTORY,
