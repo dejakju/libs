@@ -18,7 +18,7 @@ namespace libs
             }
             catch (DOSException e)
             {
-                DOS.WriteLine("Aborted. Code = " + e.Message);
+                DOS.WriteLine($"Aborted. {e.Message} (CODE: {e.InnerException.Message})");
             }
         }
 

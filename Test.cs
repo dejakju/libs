@@ -102,24 +102,24 @@ namespace libs
                 }
                 else if (int.TryParse(input, out number) && number is 0)
                 {
-                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > Although 0 is an integer, but it's not in between 1 and 79!");
+                    throw new DOSException("0 is not in between 1 and 79!");
                 }
                 else if (int.TryParse(input, out number) && number is >= 80)
                 {
-                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is greater than 79!");
+                    throw new DOSException($"'{input}' is greater than 79!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
                 }
                 else if (int.TryParse(input, out number) && number is < 0)
                 {
-                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is not a positive integer!");
+                    throw new DOSException($"'{input}' is not a positive integer!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
                 }
                 else
                 {
-                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is not a valid integer!");
+                    throw new DOSException($"'{input}' is not a valid integer!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
                 }
             }
             else
             {
-                throw new DOSException($"({DOSCode.ERROR_ACTION_NOT_KNOWN} > No input, no action!");
+                throw new DOSException($"No input, no action!", new Exception(DOSCode.ERROR_ACTION_NOT_KNOWN.ToString()));
             }
         }
 
