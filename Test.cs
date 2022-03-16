@@ -21,7 +21,21 @@ namespace libs
             scr.ScreenWidth = 120;
             scr.ScreenHeight = 52;
 
-            scr.SetScreenSize(scr.ScreenWidth, scr.ScreenHeight);
+            /*
+             TODO:
+
+                    Add a method to set the size of the viewport and the buffer
+                    
+                    The viewport is scrollable from top to bottom and vice versa
+                    The viewport is scrollable from left to right and vice versa
+
+                    The buffer's width can be any integer greater 0 (= 1) up until 65535 (= max. column with)
+                    The buffer's height can be any integer greater 0 (= 1) up until around 4 billion (= max. row with)
+
+                    The viewport is the visible portion (rectangle) of the buffer (the "document")
+
+
+             */
 
             // Kick it!
             scr.Run();
@@ -82,9 +96,30 @@ namespace libs
                 {
                     for (int i = 0; i < number + 1; i++)
                     {
-                        Console.WriteLine($"The #{i}-th fib number is = {Math.NthFibonacci(i, m)}");
+                        Console.Write($"The #{i:00}-th fib number is = ");
+                        Console.WriteLine($"{Math.NthFibonacci(i, m)}".PadLeft(17, ' '));
                     }
                 }
+                else if (int.TryParse(input, out number) && number is 0)
+                {
+                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > Although 0 is an integer, but it's not in between 1 and 79!");
+                }
+                else if (int.TryParse(input, out number) && number is >= 80)
+                {
+                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is greater than 79!");
+                }
+                else if (int.TryParse(input, out number) && number is < 0)
+                {
+                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is not a positive integer!");
+                }
+                else
+                {
+                    throw new DOSException($"{DOSCode.ERROR_BAD_NUMBER} > '{input}' is not a valid integer!");
+                }
+            }
+            else
+            {
+                throw new DOSException($"({DOSCode.ERROR_ACTION_NOT_KNOWN} > No input, no action!");
             }
         }
 

@@ -28,7 +28,7 @@ namespace libs
         public int XOffset { get => mXOffset; set => mXOffset = value; }
 
         private int mYOffset;
-        public int YOffset { get => mYOffset; set => mXOffset = value ; }
+        public int YOffset { get => mYOffset; set => mYOffset = value ; }
 
         private int mCols;
         public int Cols { get => mCols; set => mCols = value; }
@@ -440,11 +440,6 @@ namespace libs
                 }
 
             } while (keyPressed != ConsoleKey.Enter && Console.KeyAvailable);
-        }
-
-        internal void SetScreenSize(int screenWidth, int screenHeight)
-        {
-            Console.SetWindowSize(screenWidth, screenHeight);
         }
 
         internal string GetCharacterAt(int columns, int rows)

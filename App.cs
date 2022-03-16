@@ -12,7 +12,14 @@ namespace libs
 
         static void Main(string[] args)
         {
-            Test.Run_Ctor_Test();
+            try
+            {
+                Test.Run_Fibonacci_Test();
+            }
+            catch (DOSException e)
+            {
+                DOS.WriteLine("Aborted. Code = " + e.Message);
+            }
         }
 
     }
