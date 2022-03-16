@@ -92,6 +92,8 @@ namespace libs
 
             if (!string.IsNullOrEmpty(input))
             {
+                input = input.Trim();
+
                 if (int.TryParse(input, out number) && number is > 0 and < 80)
                 {
                     for (int i = 0; i < number + 1; i++)
@@ -102,7 +104,7 @@ namespace libs
                 }
                 else if (int.TryParse(input, out number) && number is 0)
                 {
-                    throw new DOSException("0 is not in between 1 and 79!");
+                    throw new DOSException("0 is not in between 1 and 79!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
                 }
                 else if (int.TryParse(input, out number) && number is >= 80)
                 {
@@ -252,8 +254,15 @@ _/ ____\__|  | \_   _____/ ______
                         break;
                     case 1:
                         Console.WriteLine("Invoking Math test...\n");
-                        Run_Fibonacci_Test();
-                        DOS.PressAnyKeyToContinue();
+                            try
+                            {
+                                Test.Run_Fibonacci_Test();
+                            }
+                            catch (DOSException e)
+                            {
+                                DOS.WriteLine($"Aborted. {e.Message} (CODE: {e.InnerException.Message})");
+                            }
+                            DOS.PressAnyKeyToContinue();
                         break;
                     case 2:
                         Console.WriteLine("Invoking Fancy names test...\n");

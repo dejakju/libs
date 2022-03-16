@@ -12,14 +12,22 @@ namespace libs
 
         static void Main(string[] args)
         {
-            try
-            {
-                Test.Run_Fibonacci_Test();
-            }
-            catch (DOSException e)
-            {
-                DOS.WriteLine($"Aborted. {e.Message} (CODE: {e.InnerException.Message})");
-            }
+            /*
+                TODO:
+
+                        Change the menu item appearance by changing just the minimum number of items
+                        directly in place by using CursorPosition-ing
+
+                        In turn we should get rid of the flickering by redrawing all of the items (propmt, title, all options),
+                        simultaneously beeing smoother and faster
+
+                        An improved 'DisplayMenuOptions()' should do the job
+
+                        Bug found: 'Exit' seems to have a problem by changing first into the hash-menu, then 'Exit'-ing
+                        and then trying to 'Exit'-ing the main-menu (= have to tap twice the Enter-key!)
+            */
+
+            Test.Run_Menu_Test();
         }
 
     }
