@@ -6,7 +6,9 @@ A collection of helper classes which provide functions for a variety of purposes
 in 
 ## Libraries
 
-### Core - A dumber name could have never been chosen. The core of what? An egg or a planet? But let's stick to it, because it sounds important, neccessary or at least, non disposable. Maybe even cool considering having said nothing but yet still existing at the core of everything and everywhere. Herein i put all the stuff i don't know where to put otherwise.
+### Core
+
+#### A dumber name could have never been chosen. The core of what? An egg or a planet? But let's stick to it, because it sounds important, neccessary or at least, non disposable. Maybe even cool considering having said nothing but yet still existing at the core of everything and everywhere. Herein i put all the stuff i don't know where to put otherwise.
 
 *FilterBy* - Extension Method (pretty much like LINQ's Where())
 
@@ -18,7 +20,9 @@ in
 
 ---
 
-### DOS - A collection to simulate (stimulate? emulate? ejaculate?) Disk Operation System's functions
+### DOS
+
+#### A collection to simulate (stimulate? emulate? ejaculate?) Disk Operation System's functions
 
 *DOSException* - A derived class for specific 'DOS' exceptions
 
@@ -34,7 +38,9 @@ in
 
 ---
 
-### Hash - A few simpley hash and encryption algos and converting methods for convenience
+### Hash
+
+#### A few simpley hash and encryption algos and converting methods for convenience
 
 *MD5* - Return a MD5 hash for the given string
 
@@ -56,7 +62,9 @@ in
 
 ---
 
-### Node - A generic node class for holding two informations: an object (aka payload) and the next node (if any, otherwise null). Could be used eg. in single linked lists or any other basic data structure
+### Node
+
+#### A generic node class for holding two informations: an object (aka payload) and the next node (if any, otherwise null). Could be used eg. in single linked lists or any other basic data structure
 
 #### Members
 
