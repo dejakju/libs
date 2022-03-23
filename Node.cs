@@ -35,19 +35,9 @@ namespace libs
 
         #region Public Getters and Setters
 
-        public void setData(T o)
-        {
-            data = o;
-        }
-
         public T getData()
         {
             return data;
-        }
-
-        public void setNextNode(Node<T> n)
-        {
-            next = n;
         }
 
         public Node<T> getNextNode()
@@ -55,6 +45,16 @@ namespace libs
             return next;
         }
         
+        public void setData(T o)
+        {
+            data = o;
+        }
+
+        public void setNextNode(Node<T> n)
+        {
+            next = n;
+        }
+
         #endregion
     }
 }
