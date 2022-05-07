@@ -8,39 +8,6 @@ namespace libs
     {
         private static List<string> fancyNames = LoadFancyNames();
 
-        public static void Run_Ctor_Test()
-        {
-            // Create  an Instance
-            Screen scr = new Screen("MTEXT");
-
-
-            scr.ScreenBufferWidth = 1024;
-            scr.ScreenBufferHeight = 4096;
-
-            scr.ScreenTitle = "M\\TEXT EXPERIMENTAL";
-            scr.ScreenWidth = 120;
-            scr.ScreenHeight = 52;
-
-            /*
-             TODO:
-
-                    Add a method to set the size of the viewport and the buffer
-                    
-                    The viewport is scrollable from top to bottom and vice versa
-                    The viewport is scrollable from left to right and vice versa
-
-                    The buffer's width can be any integer greater 0 (= 1) up until 65535 (= max. column with)
-                    The buffer's height can be any integer greater 0 (= 1) up until around 4 billion (= max. row with)
-
-                    The viewport is the visible portion (rectangle) of the buffer (the "document")
-
-
-             */
-
-            // Kick it!
-            scr.Run();
-        }
-
         private static List<string> LoadFancyNames()
         {
            List<string> fancyNames = new List<string>() {
@@ -48,7 +15,7 @@ namespace libs
                 "One", "Two", "Three", "Four", "Fife", "Six", "Seven", "Eight", "Nine",
                 "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares",
+                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares", "Your Mothers Face",
                 "Battlestar Galactica", "Bird of Prey", "X-Wing", "Enterprise", "Defiand", "Tie Fighter", "Quadron Confinement", "Prometheus", "Warp Beacon",
                 "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "41", "42"
             };

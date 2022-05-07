@@ -8,9 +8,15 @@ namespace libs
         public static double PI = 3.14159265358979323846264338327950288;
         public static double E = 2.718281828459045;
 
-        // Calculate the n-th fibonacci number using the memoization technique
+        /// <summary>
+        /// Calculate the n-th fibonacci number using the memoization technique
+        /// <input="number">The n-th position of the fib sequence</input>
+        /// <input="memo">The memoization dictionary</input>
+        /// </summary>
         public static ulong NthFibonacci(int number, Dictionary<int, ulong> memo)
         {
+            // ToDo: add try-catch for maximum integer as even a 64-bit ulong is limited!
+
             ulong parsedValue = 0;
             if (memo.TryGetValue(number, out parsedValue))
             {
