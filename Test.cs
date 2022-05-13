@@ -49,10 +49,9 @@ ______________________ ____________________         _____       ______
                         break;
                     default:
                         break;
-                 }
+                }
                 selectedIndex = DOS.SelectMenu();
             }
-
         }
 
         private static List<string> LoadFancyNames()
@@ -173,12 +172,13 @@ ______________________ ____________________         _____       ______
             {
                 throw new DOSException($"No input, no action!", new Exception(DOSCode.ERROR_ACTION_NOT_KNOWN.ToString()));
             }
+            DOS.PressAnyKeyToContinue();
         }
 
         public static void Run_Hash_Menu()
         {
             string title = "Hash V4.6";
-            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "ALL ABOVE", "Exit" };
+            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "Exit" };
             string prompt = @"
   ___ ___               .__      
  /   |   \_____    _____|  |__   
@@ -213,11 +213,12 @@ ______________________ ____________________         _____       ______
                         Run_Hash_TrippleDes_Test();
                         DOS.PressAnyKeyToContinue();
                         break;
-                    case 4:
-                        Run_Hash_Test_All();
-                        DOS.PressAnyKeyToContinue();
-                        break;
+                    // case 4:
+                    //     Run_Hash_Test_All();
+                    //     DOS.PressAnyKeyToContinue();
+                    //     break;
                     default:
+                        Run_Menu_Test(); 
                         break;
                  }
                 selectedIndex = DOS.SelectMenu();
