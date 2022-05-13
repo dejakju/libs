@@ -8,6 +8,53 @@ namespace libs
     {
         private static List<string> fancyNames = LoadFancyNames();
 
+        public static void Run_Menu_Test()
+        {
+            string title = "TEST V4.6";
+            string[] options = { "Hash/Encrypt algos", "Math related", "LINQ queries", "Prefs", "Exit" };
+            string promptTest = @"
+______________________ ____________________         _____       ______  
+\__    ___/\_   _____//   _____/\__    ___/ ___  __/  |  |     /  __  \ 
+  |    |    |    __)_ \_____  \   |    |    \  \/ /   |  |_    >      < 
+  |    |    |        \/        \  |    |     \   /    ^   /   /   --   \
+  |____|   /_______  /_______  /  |____|      \_/\____   | /\ \______  /
+                   \/        \/                       |__| \/  v4.8  \/ 
+";
+            DOS.CreateMenu(promptTest, options, title);
+            DOS.mMenuPrefix = " >> ";
+            DOS.mMenuSuffix = " << ";
+            int selectedIndex = DOS.SelectMenu();
+
+            while (selectedIndex != (options.Length - 1))
+            {
+                 switch (selectedIndex)
+                 {
+                    case 0:
+                        Run_Hash_Menu();
+                        break;
+                    case 1:
+                        Run_Math_Menu();
+                        break;
+                    case 2:
+                        Console.WriteLine("Invoking Fancy names test...\n");
+                        Run_ListFancynames_Test();
+                        break;
+                    case 3:
+                        Console.WriteLine("Setting Preferences...find the special key");
+                        if (DOS.WaitForKey(ConsoleKey.H))
+                        {
+                            Console.WriteLine("You found the special H key");
+                            Console.ReadKey(true);
+                        }
+                        break;
+                    default:
+                        break;
+                 }
+                selectedIndex = DOS.SelectMenu();
+            }
+
+        }
+
         private static List<string> LoadFancyNames()
         {
            List<string> fancyNames = new List<string>() {
@@ -51,7 +98,7 @@ namespace libs
 
         public static void Run_Math_Menu()
         {
-            string title = "Fibonacci Test";
+            string title = "Math Menu v2.71";
             string[] options = { "Find n-th position of a Fibonacci sequence", "Exit" };
             string promptMath = @"
                 __  .__     
@@ -73,7 +120,6 @@ namespace libs
                  {
                     case 0:
                         Run_Fibonacci_Test();
-                        DOS.PressAnyKeyToContinue();
                         break;
                     default:
                         break;
@@ -132,7 +178,7 @@ namespace libs
         public static void Run_Hash_Menu()
         {
             string title = "Hash V4.6";
-            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "Exit" };
+            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "ALL ABOVE", "Exit" };
             string prompt = @"
   ___ ___               .__      
  /   |   \_____    _____|  |__   
@@ -167,6 +213,10 @@ namespace libs
                         Run_Hash_TrippleDes_Test();
                         DOS.PressAnyKeyToContinue();
                         break;
+                    case 4:
+                        Run_Hash_Test_All();
+                        DOS.PressAnyKeyToContinue();
+                        break;
                     default:
                         break;
                  }
@@ -196,98 +246,47 @@ namespace libs
 
         public static void Run_Hash_ByteEncoding_Test()
         {
-                DOS.Write($"Enter a phrase or word: ");
-                string input = Console.ReadLine();
-                var encoded = Hash.Encode(input);
-                DOS.WriteLine($"Encoded:");
+            DOS.Write($"Enter a phrase or word: ");
+            string input = Console.ReadLine();
+            var encoded = Hash.Encode(input);
+            DOS.WriteLine($"Encoded:");
 
-                for (int ctr = 0; ctr < encoded.Length; ctr++)
-                {
-                    DOS.Write("{0:X2}\t", encoded[ctr]);
-                    if ((ctr+1) % 16 == 0)
-                        DOS.NewLine();
-                }
+            for (int ctr = 0; ctr < encoded.Length; ctr++)
+            {
+                DOS.Write("{0:X2}\t", encoded[ctr]);
+                if ((ctr+1) % 16 == 0)
+                    DOS.NewLine();
+            }
 
-                var decoded = Hash.Decode(encoded);
-                DOS.WriteLine($"\nDecoded:\n{decoded}");
+            var decoded = Hash.Decode(encoded);
+            DOS.WriteLine($"\nDecoded:\n{decoded}");
         }
 
         public static void Run_Hash_TrippleDes_Test()
         {
-                DOS.Write($"Enter a phrase or word: ");
-                string input = Console.ReadLine();
-                var encrypted = Hash.Encrypt(Hash.Encode(input), "kfdkfd", "12345678");
-                DOS.WriteLine($"Encrypted:");
+            DOS.Write($"Enter a phrase or word: ");
+            string input = Console.ReadLine();
+            var encrypted = Hash.Encrypt(Hash.Encode(input), "abc", "12345678");
+            DOS.WriteLine($"Encrypted:");
 
-                for (int ctr = 0; ctr < encrypted.Length; ctr++)
-                {
-                    DOS.Write("{0:X2}\t", encrypted[ctr]);
-                    if ((ctr+1) % 16 == 0)
-                        DOS.NewLine();
-                }
-
-                var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "kfdkfd", "12345678"));
-                DOS.WriteLine($"\nDecrypted:\n{decrypted}");
-
-        }
-
-        public static void Run_Menu_Test()
-        {
-            string title = "TEST V4.6";
-            string[] options = { "Hash/Encrypt algos", "Math related", "LINQ queries", "Prefs", "Exit" };
-            string promptTest = @"
-______________________ ____________________         _____       ______  
-\__    ___/\_   _____//   _____/\__    ___/ ___  __/  |  |     /  __  \ 
-  |    |    |    __)_ \_____  \   |    |    \  \/ /   |  |_    >      < 
-  |    |    |        \/        \  |    |     \   /    ^   /   /   --   \
-  |____|   /_______  /_______  /  |____|      \_/\____   | /\ \______  /
-                   \/        \/                       |__| \/  v4.8  \/ 
-";
-            DOS.CreateMenu(promptTest, options, title);
-            DOS.mMenuPrefix = " >> ";
-            DOS.mMenuSuffix = " << ";
-            int selectedIndex = DOS.SelectMenu();
-
-            while (selectedIndex != (options.Length - 1))
+            for (int ctr = 0; ctr < encrypted.Length; ctr++)
             {
-                 switch (selectedIndex)
-                 {
-                    case 0:
-                        Run_Hash_Menu();
-                        break;
-                    case 1:
-                        Run_Math_Menu();
-                        Console.WriteLine("Invoking Math test...\n");
-                            try
-                            {
-                                Test.Run_Fibonacci_Test();
-                            }
-                            catch (DOSException e)
-                            {
-                                DOS.WriteLine($"Aborted. {e.Message} (CODE: {e.InnerException.Message})");
-                            }
-                            DOS.PressAnyKeyToContinue();
-                        break;
-                    case 2:
-                        Console.WriteLine("Invoking Fancy names test...\n");
-                        Run_ListFancynames_Test();
-                        DOS.PressAnyKeyToContinue();
-                        break;
-                    case 3:
-                        Console.WriteLine("Setting Preferences...find the special key");
-                        if (DOS.WaitForKey(ConsoleKey.H))
-                        {
-                            Console.WriteLine("You found the special H key");
-                            Console.ReadKey(true);
-                        }
-                        break;
-                    default:
-                        break;
-                 }
-                selectedIndex = DOS.SelectMenu();
+                DOS.Write("{0:X2}\t", encrypted[ctr]);
+                if ((ctr+1) % 16 == 0)
+                    DOS.NewLine();
             }
 
+            var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "abc", "12345678"));
+            DOS.WriteLine($"\nDecrypted:\n{decrypted}");
         }
+
+        public static void Run_Hash_Test_All()
+        {
+            DOS.Write($"Enter a phrase or word: ");
+            string input = Console.ReadLine();
+
+        }
+
 
 
    }
