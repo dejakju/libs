@@ -49,8 +49,45 @@ namespace libs
             }, "LIST FANCY NAMES");
         }
 
+        public static void Run_Math_Menu()
+        {
+            string title = "Fibonacci Test";
+            string[] options = { "Find n-th position of a Fibonacci sequence", "Exit" };
+            string promptMath = @"
+                __  .__     
+  _____ _____ _/  |_|  |__  
+ /     \\__  \\   __\  |  \ 
+|  Y Y  \/ __ \|  | |   Y  \
+|__|_|  (____  /__| |___|  /
+      \/     \/          \/ V3.14
+";
+
+            DOS.CreateMenu(promptMath, options, title);
+            DOS.mMenuPrefix = " ** ";
+            DOS.mMenuSuffix = " ** ";
+            int selectedIndex = DOS.SelectMenu();
+
+            while (selectedIndex != (options.Length - 1))
+            {
+                 switch (selectedIndex)
+                 {
+                    case 0:
+                        Run_Fibonacci_Test();
+                        DOS.PressAnyKeyToContinue();
+                        break;
+                    default:
+                        break;
+                 }
+                selectedIndex = DOS.SelectMenu();
+            }
+
+            // Invoke Main Menu
+            Run_Menu_Test(); 
+        }
+
         public static void Run_Fibonacci_Test()
         {
+
             Dictionary<int, ulong> m = new Dictionary<int, ulong>();
 
             System.Console.Write($"Enter a positive integer between 1 and 79: ");
@@ -196,18 +233,17 @@ namespace libs
 
         public static void Run_Menu_Test()
         {
-            string title = "Files V4.6";
-            string[] options = { "Hash algos", "Math related", "Fancy names", "Prefs", "Exit" };
-            string prompt = @"
-  _____.__.__  ___________       
-_/ ____\__|  | \_   _____/ ______
-\   __\|  |  |  |    __)_ /  ___/
- |  |  |  |  |__|        \\___ \ 
- |__|  |__|____/_______  /____  >
-                       \/     \/  V4.6
+            string title = "TEST V4.6";
+            string[] options = { "Hash/Encrypt algos", "Math related", "LINQ queries", "Prefs", "Exit" };
+            string promptTest = @"
+______________________ ____________________         _____       ______  
+\__    ___/\_   _____//   _____/\__    ___/ ___  __/  |  |     /  __  \ 
+  |    |    |    __)_ \_____  \   |    |    \  \/ /   |  |_    >      < 
+  |    |    |        \/        \  |    |     \   /    ^   /   /   --   \
+  |____|   /_______  /_______  /  |____|      \_/\____   | /\ \______  /
+                   \/        \/                       |__| \/  v4.8  \/ 
 ";
-
-            DOS.CreateMenu(prompt, options, title);
+            DOS.CreateMenu(promptTest, options, title);
             DOS.mMenuPrefix = " >> ";
             DOS.mMenuSuffix = " << ";
             int selectedIndex = DOS.SelectMenu();
@@ -220,6 +256,7 @@ _/ ____\__|  | \_   _____/ ______
                         Run_Hash_Menu();
                         break;
                     case 1:
+                        Run_Math_Menu();
                         Console.WriteLine("Invoking Math test...\n");
                             try
                             {

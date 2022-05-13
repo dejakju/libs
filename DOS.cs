@@ -174,6 +174,69 @@ namespace libs
             Console.ResetColor();
         }
 
+        public static void Clear()
+        {
+            Console.Clear();
+        }
+
+        public static void Cls()
+        {
+            Console.Clear();
+        }
+
+        public static (int, int) GetCursorPos()
+        {
+            (int left, int top) mCursorPosition = Console.GetCursorPosition();
+
+            return mCursorPosition;
+        }
+
+        public static int GetBufferHeight()
+        {
+            return Console.BufferHeight;
+        }
+
+        public static int GetBufferWidth()
+        {
+            return Console.BufferWidth;
+        }
+
+        public static int GetWindowHeight()
+        {
+            return Console.WindowHeight;
+        }
+
+        public static int GetWindowWidth()
+        {
+            return Console.WindowWidth;
+        }
+
+        public static int GetWindowMaxHeight()
+        {
+            return Console.LargestWindowHeight;
+        }
+
+        public static int GetWindowMaxWidth()
+        {
+            return Console.LargestWindowWidth;
+        }
+
+        public static void NewLine()
+        {
+            Console.Write(Environment.NewLine);
+        }
+
+        public static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("\nPress ANY KEY to continue...\n");
+            Console.ReadKey(true);
+        }
+
+        public static void ResetColor()
+        {
+            Console.ResetColor();
+        }
+
         public static int SelectMenu(int selectedIndex = 0)
         {
             ConsoleKey keyPressed;
@@ -207,6 +270,30 @@ namespace libs
             return mMenuSelectedIndex;
         }
 
+        public static void SetCursorInvisible()
+        {
+            Console.CursorVisible = false;
+        }
+
+        public static void SetCursorPos(int left, int top)
+        {
+            Console.SetCursorPosition(left, top);
+        }
+
+        public static void SetCursorVisible()
+        {
+            Console.CursorVisible = true;
+        }
+
+        public static void SetForegroundColor(ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+        }
+
+        public static void SetBackgroundColor(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+        }
 
         public static bool WaitForKey(ConsoleKey key)
         {
@@ -226,90 +313,6 @@ namespace libs
             return false;
         }
 
-
-        public static void PressAnyKeyToContinue()
-        {
-            Console.WriteLine("\nPress ANY KEY to continue...\n");
-            Console.ReadKey(true);
-        }
-
-        public static void Clear()
-        {
-            Console.Clear();
-        }
-
-        public static void Cls()
-        {
-            Console.Clear();
-        }
-
-        public static (int, int) GetCursorPos()
-        {
-            (int left, int top) mCursorPosition = Console.GetCursorPosition();
-
-            return mCursorPosition;
-        }
-
-        public static void SetCursorPos(int left, int top)
-        {
-            Console.SetCursorPosition(left, top);
-        }
-
-        public static int GetBufferWidth()
-        {
-            return Console.BufferWidth;
-        }
-
-        public static int GetBufferHeight()
-        {
-            return Console.BufferHeight;
-        }
-
-        public static int GetWindowWidth()
-        {
-            return Console.WindowWidth;
-        }
-
-        public static int GetWindowHeight()
-        {
-            return Console.WindowHeight;
-        }
-
-        public static int GetWindowMaxWidth()
-        {
-            return Console.LargestWindowWidth;
-        }
-
-        public static int GetWindowMaxHeight()
-        {
-            return Console.LargestWindowHeight;
-        }
-
-        public static void SetCursorVisible()
-        {
-            Console.CursorVisible = true;
-        }
-
-        public static void SetCursorInvisible()
-        {
-            Console.CursorVisible = false;
-        }
-
-        public static void SetForegroundColor(ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-        }
-
-        public static void SetBackgroundColor(ConsoleColor color)
-        {
-            Console.BackgroundColor = color;
-        }
-
-        public static void ResetColor()
-        {
-            Console.ResetColor();
-        }
-
         public static void Write(string s)
         {
             Console.Write(s);
@@ -323,11 +326,6 @@ namespace libs
         public static void WriteLine(string s)
         {
             Console.WriteLine(s);
-        }
-
-        public static void NewLine()
-        {
-            Console.Write(Environment.NewLine);
         }
 
         #endregion
