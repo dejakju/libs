@@ -25,32 +25,44 @@ ______________________ ____________________         _____       ______
             DOS.mMenuSuffix = " << ";
             int selectedIndex = DOS.SelectMenu();
 
-            while (selectedIndex != (options.Length - 1))
+            if (selectedIndex == options.Length - 1)
             {
-                 switch (selectedIndex)
-                 {
-                    case 0:
-                        Run_Hash_Menu();
-                        break;
-                    case 1:
-                        Run_Math_Menu();
-                        break;
-                    case 2:
-                        Console.WriteLine("Invoking Fancy names test...\n");
-                        Run_ListFancynames_Test();
-                        break;
-                    case 3:
-                        Console.WriteLine("Setting Preferences...find the special key");
-                        if (DOS.WaitForKey(ConsoleKey.H))
-                        {
-                            Console.WriteLine("You found the special H key");
-                            Console.ReadKey(true);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                selectedIndex = DOS.SelectMenu();
+                Environment.Exit(0);
+                return;
+            }
+
+            switch (selectedIndex)
+            {
+                case 0:
+                    Run_Hash_Menu();
+                    break;
+
+                case 1:
+                    Run_Math_Menu();
+                    break;
+
+                case 2:
+                    Console.WriteLine("Invoking Fancy names test...\n");
+                    Run_Fancynames_Test();
+                    Run_ListFancynames_Test();
+                    DOS.PressAnyKeyToContinue();
+                    Run_Menu_Test();
+                    break;
+
+                case 3:
+                    Console.WriteLine("Setting Preferences...find the special ''H'' key");
+                    if (DOS.WaitForKey(ConsoleKey.H))
+                    {
+                        Console.WriteLine("You found the special H key");
+                        Console.ReadKey(true);
+                    }
+                    DOS.PressAnyKeyToContinue();
+                    Run_Menu_Test();
+                    break;
+
+                default:
+                    selectedIndex = DOS.SelectMenu();
+                    break;
             }
         }
 
@@ -118,7 +130,16 @@ ______________________ ____________________         _____       ______
                  switch (selectedIndex)
                  {
                     case 0:
-                        Run_Fibonacci_Test();
+                        try
+                        {
+                            Run_Fibonacci_Test();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
+                            DOS.PressAnyKeyToContinue();
+                        }
+
                         break;
                     default:
                         break;
@@ -153,7 +174,7 @@ ______________________ ____________________         _____       ______
                 }
                 else if (int.TryParse(input, out number) && number is 0)
                 {
-                    throw new DOSException("0 is not in between 1 and 79!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
+                    throw new DOSException("0 is not between 1 and 79!", new Exception(DOSCode.ERROR_BAD_NUMBER.ToString()));
                 }
                 else if (int.TryParse(input, out number) && number is >= 80)
                 {
