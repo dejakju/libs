@@ -26,6 +26,8 @@ namespace libs
         }
     }
 
+    #region DOS Enumerations
+
     public enum DOSCode
     {
         ERROR_NO_FREE_STORE,
@@ -84,6 +86,8 @@ namespace libs
         SIGBREAKB_CTRL_E,
         SIGBREAKB_CTRL_F
     }
+
+    #endregion
 
     public static class DOS
     {
@@ -160,18 +164,87 @@ namespace libs
 
                 if (i == mMenuSelectedIndex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.WriteLine($"{prefix}{currentOption.PadLeft(maxLength, ' ')}{suffix}");
+                    DOS.SetForegroundColor(ConsoleColor.Black);
+                    DOS.SetBackgroundColor(ConsoleColor.Cyan);
+                    DOS.WriteLine($"{prefix}{currentOption.PadLeft(maxLength, ' ')}{suffix}");
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.WriteLine($"{currentOption.PadLeft(maxLength, ' ')}");
+                    DOS.SetForegroundColor(ConsoleColor.White);
+                    DOS.SetBackgroundColor(ConsoleColor.Black);
+                    DOS.WriteLine($"{currentOption.PadLeft(maxLength, ' ')}");
                 }
             }
-            Console.ResetColor();
+            DOS.ResetColor();
+        }
+
+        public static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("\nPress ANY KEY to continue...\n");
+            Console.ReadKey(true);
+        }
+
+        public static bool WaitForKey(ConsoleKey key)
+        {
+            ConsoleKey keyPressed;
+
+            do
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                keyPressed = keyInfo.Key;
+
+                if (keyPressed == key)
+                    return true;
+
+
+            } while (keyPressed != key);
+
+            return false;
+        }
+
+        public static int SelectMenu(int selectedIndex = 0)
+        {
+            ConsoleKey keyPressed;
+            do
+            {
+                Console.Clear();
+                DisplayMenuOptions();
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                keyPressed = keyInfo.Key;
+
+                CheckShortcuts(keyPressed);
+
+                if (keyPressed == ConsoleKey.UpArrow)
+                {
+                    mMenuSelectedIndex--;
+                    if (mMenuSelectedIndex == -1)
+                    {
+                        mMenuSelectedIndex = mMenuOptions.Length - 1;
+                    }
+                }
+                else if (keyPressed == ConsoleKey.DownArrow)
+                {
+                    mMenuSelectedIndex++;
+                    if (mMenuSelectedIndex == mMenuOptions.Length)
+                    {
+                        mMenuSelectedIndex = 0;
+                    }
+                }
+
+            } while (keyPressed != ConsoleKey.Enter);
+
+            return mMenuSelectedIndex;
+        }
+
+        public static int CheckShortcuts(ConsoleKey keyPressed)
+        {
+            if (keyPressed == ConsoleKey.Q)
+            {
+                mMenuSelectedIndex = mMenuOptions.Length - 1;
+                return mMenuSelectedIndex;
+            }
+            return 0;
         }
 
         public static void Clear()
@@ -226,50 +299,6 @@ namespace libs
             Console.Write(Environment.NewLine);
         }
 
-        public static void PressAnyKeyToContinue()
-        {
-            Console.WriteLine("\nPress ANY KEY to continue...\n");
-            Console.ReadKey(true);
-        }
-
-        public static void ResetColor()
-        {
-            Console.ResetColor();
-        }
-
-        public static int SelectMenu(int selectedIndex = 0)
-        {
-            ConsoleKey keyPressed;
-            do
-            {
-                Console.Clear();
-                DisplayMenuOptions();
-
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                keyPressed = keyInfo.Key;
-
-                if (keyPressed == ConsoleKey.UpArrow)
-                {
-                    mMenuSelectedIndex--;
-                    if (mMenuSelectedIndex == -1)
-                    {
-                        mMenuSelectedIndex = mMenuOptions.Length - 1;
-                    }
-                }
-                else if (keyPressed == ConsoleKey.DownArrow)
-                {
-                    mMenuSelectedIndex++;
-                    if (mMenuSelectedIndex == mMenuOptions.Length)
-                    {
-                        mMenuSelectedIndex = 0;
-                    }
-                }
-
-            } while (keyPressed != ConsoleKey.Enter);
-
-            return mMenuSelectedIndex;
-        }
-
         public static void SetCursorInvisible()
         {
             Console.CursorVisible = false;
@@ -295,22 +324,9 @@ namespace libs
             Console.BackgroundColor = color;
         }
 
-        public static bool WaitForKey(ConsoleKey key)
+        public static void ResetColor()
         {
-            ConsoleKey keyPressed;
-
-            do
-            {
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-                keyPressed = keyInfo.Key;
-
-                if (keyPressed == key)
-                    return true;
-
-
-            } while (keyPressed != key);
-
-            return false;
+            Console.ResetColor();
         }
 
         public static void Write(string s)

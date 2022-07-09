@@ -10,8 +10,8 @@ namespace libs
 
         public static void Run_Menu_Test()
         {
-            string title = "TEST V4.6";
-            string[] options = { "Hash/Encrypt algos", "Math related", "LINQ queries", "Prefs", "Exit" };
+            string title = "TEST V4.8";
+            string[] options = { "Hash/Encrypt algos", "Math related", "LINQ queries", "Prefs", "Quit" };
             string promptTest = @"
 ______________________ ____________________         _____       ______  
 \__    ___/\_   _____//   _____/\__    ___/ ___  __/  |  |     /  __  \ 
@@ -42,11 +42,12 @@ ______________________ ____________________         _____       ______
                     break;
 
                 case 2:
-                    Console.WriteLine("Invoking Fancy names test...\n");
-                    Run_Fancynames_Test();
-                    Run_ListFancynames_Test();
-                    DOS.PressAnyKeyToContinue();
-                    Run_Menu_Test();
+                    Run_LINQ_Menu();
+                    // Console.WriteLine("Invoking Fancy names test...\n");
+                    // Run_Fancynames_Test();
+                    // Run_ListFancynames_Test();
+                    // DOS.PressAnyKeyToContinue();
+                    // Run_Menu_Test();
                     break;
 
                 case 3:
@@ -66,6 +67,61 @@ ______________________ ____________________         _____       ______
             }
         }
 
+
+        private static void Run_LINQ_Menu()
+        {
+            string title = "LINQ Menu v1.1";
+            string[] options = { "List all", "Basic queries", "Quit" };
+            string promptMath = @"
+ __    __  __ _   __  
+(  )  (  )(  ( \ /  \ 
+/ (_/\ )( /    /(  O )
+\____/(__)\_)__) \__\) v1.1
+";
+
+            DOS.CreateMenu(promptMath, options, title);
+            DOS.mMenuPrefix = " ** ";
+            DOS.mMenuSuffix = " ** ";
+            int selectedIndex = DOS.SelectMenu();
+
+            while (selectedIndex != (options.Length - 1))
+            {
+                 switch (selectedIndex)
+                 {
+                    case 0:
+                        try
+                        {
+                            Run_ListFancynames_Test();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
+                            DOS.PressAnyKeyToContinue();
+                        }
+
+                        break;
+                    case 1:
+                        try
+                        {
+                            Run_Simple_Filter_Test();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
+                            DOS.PressAnyKeyToContinue();
+                        }
+
+                        break;
+                    default:
+                        break;
+                 }
+                selectedIndex = DOS.SelectMenu();
+            }
+
+            // Invoke Main Menu
+            Run_Menu_Test(); 
+        }
+
         private static List<string> LoadFancyNames()
         {
            List<string> fancyNames = new List<string>()
@@ -82,24 +138,30 @@ ______________________ ____________________         _____       ______
             return fancyNames;
         }
 
-        public static void Run_Fancynames_Test()
+        public static void Run_List_Fancynames_Test()
         {
-            Core.MeasureRuntime(() => {
-                fancyNames.FilterBy(i => i.EndsWith("n")).ThenFilterBy(i => i.Contains("G")).ToList().ForEach(i => {
-                    DOS.WriteLine($"{i.ToUpper()}");
-                });
-            }, "applying some filter methods to a list");
-        }
-        
-        public static void Run_ListFancynames_Test()
-        {
+            DOS.Clear();
             Core.MeasureRuntime(() =>
             {
                 // All items ordered ascending
                 fancyNames.FilterBy(n => n.Any()).OrderBy(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-            }, "All items ordered ascending");
+            }, "FILTER: ANY(), RESULT: ASCENDING ORDER");
             DOS.PressAnyKeyToContinue();
-
+        }
+        
+        public static void Run_Simple_Filter_Test()
+        {
+            DOS.Clear();
+            Core.MeasureRuntime(() => {
+                fancyNames.FilterBy(i => i.EndsWith("n")).ThenFilterBy(i => i.Contains("G")).ToList().ForEach(i => {
+                    DOS.WriteLine($"{i.ToUpper()}");
+                });
+            }, "FILTER: ENDSWITH(\"n\") & CONTAINS(\"G\"), RESULT: UPPER CASE");
+            DOS.PressAnyKeyToContinue();
+        }
+        
+        public static void Run_ListFancynames_Test()
+        {
             DOS.Clear();
             Core.MeasureRuntime(() =>
             {
@@ -133,8 +195,8 @@ ______________________ ____________________         _____       ______
 
         public static void Run_Math_Menu()
         {
-            string title = "Math Menu v2.71";
-            string[] options = { "Find n-th position of a Fibonacci sequence", "A ridiculously large number (2 ^ 80)", "Exit" };
+            string title = "Math Menu v3.14";
+            string[] options = { "Find n-th position of a Fibonacci sequence", "Naming a ridiculously large number (2 ^ 80)", "Quit" };
             string promptMath = @"
                 __  .__     
   _____ _____ _/  |_|  |__  
@@ -234,24 +296,35 @@ ______________________ ____________________         _____       ______
 
         public static void Run_Ridiculous_Test()
         {
-            DOS.WriteLine("2 ^80 = 1.208.925.819.614.629.174.706.176");
-            DOS.WriteLine("        ^ ^   ^   ^   ^   ^   ^   ^   ^");
-            DOS.WriteLine("        | |   |   |   |   |   |   |   +- onehundredseventysix");
-            DOS.WriteLine("        | |   |   |   |   |   |   +----- sevenhundredsix thousand");
-            DOS.WriteLine("        | |   |   |   |   |   +--------- onehundredseventyfour million");
-            DOS.WriteLine("        | |   |   |   |   +------------- sixhundredtwentynine billion");
-            DOS.WriteLine("        | |   |   |   +----------------- sixhundredfourteen trillion");
-            DOS.WriteLine("        | |   |   +--------------------- eighthundrednineteen quadrillion");
-            DOS.WriteLine("        | |   +------------------------- ninehundredtwentyfive quintillion");
-            DOS.WriteLine("        | +----------------------------- twohundredeight sixtillion");
-            DOS.WriteLine("        +------------------------------- one septillion");
+            DOS.Cls();
+            DOS.WriteLine("\n\n\n\t        +------------------------------- one septillion");
+            DOS.WriteLine("\t        | +----------------------------- twohundredeight sixtillion");
+            DOS.WriteLine("\t        | |   +------------------------- ninehundredtwentyfive quintillion");
+            DOS.WriteLine("\t        | |   |   +--------------------- eighthundrednineteen quadrillion");
+            DOS.WriteLine("\t        | |   |   |   +----------------- sixhundredfourteen trillion");
+            DOS.WriteLine("\t        | |   |   |   |   +------------- sixhundredtwentynine billion");
+            DOS.WriteLine("\t        | |   |   |   |   |   +--------- onehundredseventyfour million");
+            DOS.WriteLine("\t        | |   |   |   |   |   |   +----- sevenhundredsix thousand");
+            DOS.WriteLine("\t        | |   |   |   |   |   |   |   +- onehundredseventysix");
+            DOS.WriteLine("\t        v v   v   v   v   v   v   v   v");
+            DOS.WriteLine("\t 2^80 = 1.208.925.819.614.629.174.706.176");
+            DOS.WriteLine("\t        ^ ^   ^   ^   ^   ^   ^   ^   ^");
+            DOS.WriteLine("\t        | |   |   |   |   |   |   |   +- onehundredseventysix");
+            DOS.WriteLine("\t        | |   |   |   |   |   |   +----- sevenhundredsix thousand");
+            DOS.WriteLine("\t        | |   |   |   |   |   +--------- onehundredseventyfour million");
+            DOS.WriteLine("\t        | |   |   |   |   +------------- sixhundredtwentynine billion");
+            DOS.WriteLine("\t        | |   |   |   +----------------- sixhundredfourteen trillion");
+            DOS.WriteLine("\t        | |   |   +--------------------- eighthundrednineteen quadrillion");
+            DOS.WriteLine("\t        | |   +------------------------- ninehundredtwentyfive quintillion");
+            DOS.WriteLine("\t        | +----------------------------- twohundredeight sixtillion");
+            DOS.WriteLine("\t        +------------------------------- one septillion");
             DOS.PressAnyKeyToContinue();
         }
 
         public static void Run_Hash_Menu()
         {
             string title = "Hash V4.6";
-            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "Exit" };
+            string[] options = { "MD5", "SHA1", "BYTE ENCODE", "TRIPPLE DES", "Quit" };
             string prompt = @"
   ___ ___               .__      
  /   |   \_____    _____|  |__   
@@ -302,28 +375,28 @@ ______________________ ____________________         _____       ______
 
         public static void Run_Hash_MD5_Test()
         {
-            DOS.Write($"Enter a phrase or word: ");
+            DOS.Write($"\nEnter a phrase or word: ");
             string input = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(input))
-                DOS.WriteLine("MD5:".PadRight(6) + $"{Hash.MD5(input)}");
+                DOS.WriteLine("\nMD5:".PadRight(6) + $"{Hash.MD5(input)}");
         }
 
         public static void Run_Hash_SHA1_Test()
         {
-            DOS.Write($"Enter a phrase or word: ");
+            DOS.Write($"\nEnter a phrase or word: ");
             string input = Console.ReadLine();
 
             if (!string.IsNullOrEmpty(input))
-                DOS.WriteLine("SHA1:".PadRight(6) + $"{Hash.SHA1(input)}");
+                DOS.WriteLine("\nSHA1:".PadRight(6) + $"{Hash.SHA1(input)}");
         }
 
         public static void Run_Hash_ByteEncoding_Test()
         {
-            DOS.Write($"Enter a phrase or word: ");
+            DOS.Write($"\nEnter a phrase or word: ");
             string input = Console.ReadLine();
             var encoded = Hash.Encode(input);
-            DOS.WriteLine($"Encoded:");
+            DOS.WriteLine($"\nEncoded:");
 
             for (int ctr = 0; ctr < encoded.Length; ctr++)
             {
@@ -333,15 +406,15 @@ ______________________ ____________________         _____       ______
             }
 
             var decoded = Hash.Decode(encoded);
-            DOS.WriteLine($"\nDecoded:\n{decoded}");
+            DOS.WriteLine($"\n\nDecoded:\n{decoded}");
         }
 
         public static void Run_Hash_TrippleDes_Test()
         {
-            DOS.Write($"Enter a phrase or word: ");
+            DOS.Write($"\nEnter a phrase or word: ");
             string input = Console.ReadLine();
             var encrypted = Hash.Encrypt(Hash.Encode(input), "abc", "12345678");
-            DOS.WriteLine($"Encrypted:");
+            DOS.WriteLine($"\nEncrypted:");
 
             for (int ctr = 0; ctr < encrypted.Length; ctr++)
             {
@@ -351,12 +424,12 @@ ______________________ ____________________         _____       ______
             }
 
             var decrypted = Hash.Decode(Hash.Decrypt(encrypted, "abc", "12345678"));
-            DOS.WriteLine($"\nDecrypted:\n{decrypted}");
+            DOS.WriteLine($"\n\nDecrypted:\n{decrypted}");
         }
 
         public static void Run_Hash_Test_All()
         {
-            DOS.Write($"Enter a phrase or word: ");
+            DOS.Write($"\nEnter a phrase or word: ");
             string input = Console.ReadLine();
 
         }
