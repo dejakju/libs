@@ -50,10 +50,10 @@ ______________________ ____________________         _____       ______
                     break;
 
                 case 3:
-                    Console.WriteLine("Setting Preferences...find the special ''H'' key");
-                    if (DOS.WaitForKey(ConsoleKey.H))
+                    Console.WriteLine("Setting Preferences...find the special ''F'' key");
+                    if (DOS.WaitForKey(ConsoleKey.F))
                     {
-                        Console.WriteLine("You found the special H key");
+                        Console.WriteLine("You found the special F...ing key");
                         Console.ReadKey(true);
                     }
                     DOS.PressAnyKeyToContinue();
@@ -68,14 +68,16 @@ ______________________ ____________________         _____       ______
 
         private static List<string> LoadFancyNames()
         {
-           List<string> fancyNames = new List<string>() {
-                "proton", "electron", "neutron", "pion", "photon", "neutrino", "muon", "graviton", "lepton",
-                "One", "Two", "Three", "Four", "Fife", "Six", "Seven", "Eight", "Nine",
+           List<string> fancyNames = new List<string>()
+           {
+                "proton", "electron", "neutron", "pion", "photon", "neutrino", "muon", "graviton", "lepton", "gluon", "winston",
+                "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
                 "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th",
+                "Das Schwert der Wahrheit", "Die fünfte Frau", "1984", "Django", "Die 120 Tage von Sodom oder Die Schule der Ausschweifungen", "The dialogue between a priest and a dying man", "Die Kunst der Liebe", "Justine", "Die schwarze Spinne",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares", "Your Mothers Face",
+                "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares", "Your Mothers Face", "Alice Cooper", "Lelek",
                 "Battlestar Galactica", "Bird of Prey", "X-Wing", "Enterprise", "Defiand", "Tie Fighter", "Quadron Confinement", "Prometheus", "Warp Beacon",
-                "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "41", "42"
+                "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "41", "42", "2520", "2584", "5"
             };
             return fancyNames;
         }
@@ -93,24 +95,46 @@ ______________________ ____________________         _____       ______
         {
             Core.MeasureRuntime(() =>
             {
-                    // All items ordered ascending
-                    fancyNames.FilterBy(n => n.Any()).OrderBy(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-                    // All items UPPERCASE ordered descending
-                    DOS.PressAnyKeyToContinue();
-                    fancyNames.FilterBy(n => n.Any()).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n.ToUpper()}"));
-                    // All numbers
-                    DOS.PressAnyKeyToContinue();
-                    fancyNames.FilterBy(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-                    // All even numbers
-                    DOS.PressAnyKeyToContinue();
-                    fancyNames.Where(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-            }, "LIST FANCY NAMES");
-        }
+                // All items ordered ascending
+                fancyNames.FilterBy(n => n.Any()).OrderBy(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
+            }, "All items ordered ascending");
+            DOS.PressAnyKeyToContinue();
+
+            DOS.Clear();
+            Core.MeasureRuntime(() =>
+            {
+                // All items UPPERCASE ordered descending
+                int ctr = 0;
+                ConsoleColor lastForeground = Console.ForegroundColor;
+                fancyNames.FilterBy(n => n.Any()).OrderByDescending(n => n).ToList().ForEach(n =>
+                {
+                    if (ctr % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    Console.WriteLine($"{n.ToUpper()}");
+                    ctr++;
+                });
+                Console.ForegroundColor = lastForeground;
+            }, "All items UPPERCASE ordered descending");
+            DOS.PressAnyKeyToContinue();
+
+            DOS.Clear();
+            Core.MeasureRuntime(() =>
+            {
+                // All numbers
+                fancyNames.FilterBy(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
+            }, "All numbers");
+       }
 
         public static void Run_Math_Menu()
         {
             string title = "Math Menu v2.71";
-            string[] options = { "Find n-th position of a Fibonacci sequence", "Exit" };
+            string[] options = { "Find n-th position of a Fibonacci sequence", "A ridiculously large number (2 ^ 80)", "Exit" };
             string promptMath = @"
                 __  .__     
   _____ _____ _/  |_|  |__  
@@ -133,6 +157,18 @@ ______________________ ____________________         _____       ______
                         try
                         {
                             Run_Fibonacci_Test();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
+                            DOS.PressAnyKeyToContinue();
+                        }
+
+                        break;
+                    case 1:
+                        try
+                        {
+                            Run_Ridiculous_Test();
                         }
                         catch (System.Exception ex)
                         {
@@ -193,6 +229,22 @@ ______________________ ____________________         _____       ______
             {
                 throw new DOSException($"No input, no action!", new Exception(DOSCode.ERROR_ACTION_NOT_KNOWN.ToString()));
             }
+            DOS.PressAnyKeyToContinue();
+        }
+
+        public static void Run_Ridiculous_Test()
+        {
+            DOS.WriteLine("2 ^80 = 1.208.925.819.614.629.174.706.176");
+            DOS.WriteLine("        ^ ^   ^   ^   ^   ^   ^   ^   ^");
+            DOS.WriteLine("        | |   |   |   |   |   |   |   +- onehundredseventysix");
+            DOS.WriteLine("        | |   |   |   |   |   |   +----- sevenhundredsix thousand");
+            DOS.WriteLine("        | |   |   |   |   |   +--------- onehundredseventyfour million");
+            DOS.WriteLine("        | |   |   |   |   +------------- sixhundredtwentynine billion");
+            DOS.WriteLine("        | |   |   |   +----------------- sixhundredfourteen trillion");
+            DOS.WriteLine("        | |   |   +--------------------- eighthundrednineteen quadrillion");
+            DOS.WriteLine("        | |   +------------------------- ninehundredtwentyfive quintillion");
+            DOS.WriteLine("        | +----------------------------- twohundredeight sixtillion");
+            DOS.WriteLine("        +------------------------------- one septillion");
             DOS.PressAnyKeyToContinue();
         }
 
