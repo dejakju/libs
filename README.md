@@ -3,7 +3,7 @@
 A collection of helper classes which provide functions for a variety of purposes.
 
 ---
-in 
+
 ## Libraries
 
 ### Core
@@ -14,7 +14,7 @@ in
 
 *Measure* - Simple Stopwatch function
 
-*MeasureRuntime* - Prints the runtime of a lambda function to the Console
+*MeasureRuntime* - Prints the runtime of a lambda function to the Console (uses internally StopWatch)
 
 ---
 
