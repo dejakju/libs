@@ -43,11 +43,6 @@ ______________________ ____________________         _____       ______
 
                 case 2:
                     Run_LINQ_Menu();
-                    // Console.WriteLine("Invoking Fancy names test...\n");
-                    // Run_Fancynames_Test();
-                    // Run_ListFancynames_Test();
-                    // DOS.PressAnyKeyToContinue();
-                    // Run_Menu_Test();
                     break;
 
                 case 3:
@@ -71,15 +66,15 @@ ______________________ ____________________         _____       ______
         private static void Run_LINQ_Menu()
         {
             string title = "LINQ Menu v1.1";
-            string[] options = { "List all", "Basic queries", "Quit" };
-            string promptMath = @"
+            string[] options = { "List all fancy names", "Apply a simple filter to the list", "List all of the numbers (integers)", "Quit" };
+            string promptLinq = @"
  __    __  __ _   __  
 (  )  (  )(  ( \ /  \ 
 / (_/\ )( /    /(  O )
 \____/(__)\_)__) \__\) v1.1
 ";
 
-            DOS.CreateMenu(promptMath, options, title);
+            DOS.CreateMenu(promptLinq, options, title);
             DOS.mMenuPrefix = " ** ";
             DOS.mMenuSuffix = " ** ";
             int selectedIndex = DOS.SelectMenu();
@@ -91,15 +86,15 @@ ______________________ ____________________         _____       ______
                     case 0:
                         try
                         {
-                            Run_ListFancynames_Test();
+                            Run_List_All_Fancynames_Test();
                         }
                         catch (System.Exception ex)
                         {
                             DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
                             DOS.PressAnyKeyToContinue();
                         }
-
                         break;
+
                     case 1:
                         try
                         {
@@ -110,8 +105,20 @@ ______________________ ____________________         _____       ______
                             DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
                             DOS.PressAnyKeyToContinue();
                         }
-
                         break;
+
+                    case 2:
+                        try
+                        {
+                            Run_List_All_Numbers_Test();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            DOS.WriteLine($"{ex.InnerException.Message}:  {ex.Message}");
+                            DOS.PressAnyKeyToContinue();
+                        }
+                        break;
+
                     default:
                         break;
                  }
@@ -131,22 +138,12 @@ ______________________ ____________________         _____       ______
                 "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th",
                 "Das Schwert der Wahrheit", "Die fünfte Frau", "1984", "Django", "Die 120 Tage von Sodom oder Die Schule der Ausschweifungen", "The dialogue between a priest and a dying man", "Die Kunst der Liebe", "Justine", "Die schwarze Spinne",
                 "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                "Fledermaus", "Penis", "Feuerzeug", "Einhahn", "Zweihahn", "Dreihahn", "Gurkhahn", "Truthahn", "Handtuch", "Hanweiler",
                 "Perseus", "Thor", "Superman", "Batman", "Lothain", "Adramelech", "Zeus", "Kju", "Goran", "Botabing", "Ares", "Your Mothers Face", "Alice Cooper", "Lelek",
                 "Battlestar Galactica", "Bird of Prey", "X-Wing", "Enterprise", "Defiand", "Tie Fighter", "Quadron Confinement", "Prometheus", "Warp Beacon",
                 "11", "12", "13", "14", "21", "22", "23", "24", "31", "32", "33", "41", "42", "2520", "2584", "5"
             };
             return fancyNames;
-        }
-
-        public static void Run_List_Fancynames_Test()
-        {
-            DOS.Clear();
-            Core.MeasureRuntime(() =>
-            {
-                // All items ordered ascending
-                fancyNames.FilterBy(n => n.Any()).OrderBy(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-            }, "FILTER: ANY(), RESULT: ASCENDING ORDER");
-            DOS.PressAnyKeyToContinue();
         }
         
         public static void Run_Simple_Filter_Test()
@@ -159,16 +156,16 @@ ______________________ ____________________         _____       ______
             }, "FILTER: ENDSWITH(\"n\") & CONTAINS(\"G\"), RESULT: UPPER CASE");
             DOS.PressAnyKeyToContinue();
         }
-        
-        public static void Run_ListFancynames_Test()
+
+        public static void Run_List_All_Fancynames_Test()
         {
             DOS.Clear();
             Core.MeasureRuntime(() =>
             {
-                // All items UPPERCASE ordered descending
+                // All items listed in ascending order, displayed in alternating colors
                 int ctr = 0;
                 ConsoleColor lastForeground = Console.ForegroundColor;
-                fancyNames.FilterBy(n => n.Any()).OrderByDescending(n => n).ToList().ForEach(n =>
+                fancyNames.FilterBy(n => n.Any()).OrderBy(n => n).ToList().ForEach(n =>
                 {
                     if (ctr % 2 == 0)
                     {
@@ -182,15 +179,34 @@ ______________________ ____________________         _____       ______
                     ctr++;
                 });
                 Console.ForegroundColor = lastForeground;
-            }, "All items UPPERCASE ordered descending");
+            }, "FILTER: ANY(), RESULT: ASCENDING ORDER");
             DOS.PressAnyKeyToContinue();
-
+        }
+        
+        public static void Run_List_All_Numbers_Test()
+        {
             DOS.Clear();
             Core.MeasureRuntime(() =>
             {
-                // All numbers
-                fancyNames.FilterBy(n => int.TryParse(n, out var num)).OrderByDescending(n => n).ToList().ForEach(n => Console.WriteLine($"{n}"));
-            }, "All numbers");
+                // All numbers ordered ascending (as strings, not the value!) displayed in alternating colors
+                int ctr = 0;
+                ConsoleColor lastForeground = Console.ForegroundColor;
+                fancyNames.FilterBy(n => int.TryParse(n, out var num)).OrderBy(n => n).ToList().ForEach(n =>
+                {
+                    if (ctr % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    Console.WriteLine($"{n.ToUpper()}");
+                    ctr++;
+                });
+                Console.ForegroundColor = lastForeground;
+            }, "All numbers ordered ascending (as strings, not the value!)");
+            DOS.PressAnyKeyToContinue();
        }
 
         public static void Run_Math_Menu()
